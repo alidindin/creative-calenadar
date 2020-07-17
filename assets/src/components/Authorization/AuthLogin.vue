@@ -6,12 +6,32 @@
     >
         <v-container>
             <v-row>
+                <v-alert
+                        v-if="showError"
+                        border="bottom"
+                        colored-border
+                        type="error"
+                        elevation="2"
+                        max-width
+                >
+                    <v-row>{{ error }}
+                    </v-row>
+                    <v-btn
+                        color="error"
+                        class="mr-4"
+                        @click="hideError"
+                >
+                    Ok
+                </v-btn>
+                </v-alert>
+            </v-row>
+            <v-row>
                 <v-col
                         cols="12"
                         md="4"
                 >
                     <v-text-field
-                            v-model="user.email"
+                            v-model="email"
                             :rules="emailRules"
                             label="E-mail"
                             required
@@ -23,7 +43,7 @@
                         md="4"
                 >
                     <v-text-field
-                            v-model="user.password"
+                            v-model="password"
                             :rules="nameRules"
                             :counter="3"
                             label="Password"
@@ -43,8 +63,9 @@
                         color="success"
                         class="mr-4"
                         @click="handleSubmit"
+                        v-bind:class="{ disabled: isLoading }"
                 >
-                    Validate
+                    Log In
                 </v-btn>
 
                 <v-btn
@@ -62,58 +83,73 @@
                     Reset Validation
                 </v-btn>
             </v-row>
-            <v-row>
-                {{ this.authorization }}
-                {{ this.getAuthData }}
-            </v-row>
         </v-container>
     </v-form>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+    import axios from 'axios';
 
-  export default {
-    data() {
-      return {
-        user: {
-          email: '',
-          password: '',
+    export default {
+        data() {
+            return {
+                valid: true,
+                lazy: true,
+                email: '',
+                password: '',
+                error: '',
+                showError: false,
+                isLoading: false,
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
+                nameRules: [
+                    v => !!v || 'Name is required',
+                    v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+                ],
+            }
         },
-        valid: false,
-        lazy: false,
-        nameRules: [
-          v => !!v || 'Name is required',
-          v => v.length <= 10 || 'Name must be less than 10 characters',
-        ],
-        emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /.+@.+/.test(v) || 'E-mail must be valid',
-        ],
-      }
-    },
-    computed: {
-      ...mapGetters({
-        authorization: 'authorization'
-      })
-    },
-    methods: {
-      validate () {
-        this.$refs.form.validate()
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
-      handleSubmit() {
-        console.log('handleSubmit', this.user);
-        this.$store.dispatch('getAuthorization', this.user);
-      }
-    },
-  }
+        props: ['user'],
+        methods: {
+            handleSubmit() {
+                this.isLoading = true;
+                this.error = '';
+
+                axios
+                    .post('/login', {
+                        email: this.email,
+                        password: this.password
+                    })
+                    .then(response => {
+                        this.$emit('user-authenticated', response.headers.location);
+                        this.email = '';
+                        this.password = '';
+                    }).catch(error => {
+                    if (error.response.data.error) {
+                        this.showError = true;
+                        this.error = error.response.data.error;
+                    } else {
+                        this.showError = true;
+                        this.error = 'Unknown error';
+                    }
+                }).finally(() => {
+                    this.isLoading = false;
+                })
+            },
+            reset () {
+                this.$refs.form.reset()
+            },
+            resetValidation () {
+                this.$refs.form.resetValidation()
+            },
+            hideError () {
+                this.showError = false;
+            }
+        },
+    }
 </script>
 
 <style scoped lang="scss">
 </style>
+

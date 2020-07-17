@@ -2,21 +2,23 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MainCal from '../components/MainCal/MainCal';
 import UserList from '../components/UserList/UserList';
+import App from '../App';
 import Authorization from '../components/Authorization/Authorization';
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
+    {
+      path: '/',
+      name: 'App',
+      component: App
+    },
     {
       path: '/calendar',
       name: 'MainCal',
       component: MainCal
-    },
-    {
-      path: '/login',
-      name: 'Authorization',
-      component: Authorization
     },
     {
       path: '/new-event',

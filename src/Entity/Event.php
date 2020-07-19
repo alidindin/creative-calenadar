@@ -12,13 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     collectionOperations={"get", "post"},
  *     itemOperations={
- *          "get"={
- *              "normalization_context"={"groups"={"events:read", "events:item:get"}},
- *          },
- *          "put",
- *          "delete"
+ *          "get"={"access_control" = "is_granted('ROLE_USER')"},
+ *          "put" = {"access_control" = "is_granted('ROLE_USER')"},
+ *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     collectionOperations={
+ *          "get"={"access_control" = "is_granted('ROLE_USER')"},
+ *          "post" = {"access_control" = "is_granted('ROLE_USER')"}
  *     },
  *     normalizationContext={"groups"={"events:read"}, "swagger_defintion_name"="Read"},
  *     denormalizationContext={"groups"={"events:write"}, "swagger_defintion_name"="Write"},
@@ -95,7 +96,7 @@ class Event
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"events:read", "events:write"})
+     * @Groups({"events:read", "events:write", "events:collection:post"})
      * @Assert\Valid()
      */
     private $owner;

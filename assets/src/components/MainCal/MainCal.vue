@@ -1,6 +1,5 @@
 <template>
     <v-container v-if="this.getUsers">
-        {{ authUser }}
         <v-row v-if="this.$store.state.events.status.pending === true" class="center-v-h">
             <clip-loader :loading="loading" :color="color" :size="size"></clip-loader>
         </v-row>
@@ -434,8 +433,7 @@ data: vm => ({
 computed: {
   ...mapGetters({
     getEvents: 'events',
-    getUsers: 'users',
-    authUser: 'authUser'
+    getUsers: 'users'
   }),
   // computedDateFormatted () {
   //   return this.formatDate(this.date)
@@ -608,7 +606,6 @@ methods: {
 mounted() {
   this.$store.dispatch('getEvents');
   this.$store.dispatch('getUsers');
-  // this.$store.dispatch('getAuthUser', this.$store.getters['authorization'].data[0]);
 }
 }
 </script>

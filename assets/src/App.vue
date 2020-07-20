@@ -1,42 +1,84 @@
 <template>
   <v-app>
-  <div class="wrapper">
-    <div style="position:relative;">
-      <div class="row no-gutters" style="box-shadow: 0 3px 7px 1px rgba(0,0,0,0.06);">
-        <div class="col py-5">
-          <h1 class="text-center">Creative Calendar</h1>
-          <h6 class="text-center">Because someone wants your left-over cheese.</h6>
-        </div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col-xs-12 col-md-6 px-5" style="background-color: #659dbd; padding-bottom: 150px;">
-          <h2 class="text-center mb-5 pt-5 text-white">API</h2>
-          <p class="text-white">
-            You are currently
-            <span v-if="user">
-                            authenticated as {{ user.username }}
+    <div v-if="user">
+      <v-navigation-drawer
+              v-model="drawer"
+              absolute
+              permanent
+              dark
+              right
+      >
+        <v-list-item class="px-2">
+          <v-list-item-avatar>
+<!--              <v-img src={require("./assets/images/logo-60x60.png")}></v-img>-->
+              <img v-bind:src="myLogo" />
+          </v-list-item-avatar>
+          <v-list-item-title>Creative Coiffeur</v-list-item-title>
+        </v-list-item>
+        <v-list-item class="px-2">
+          <v-list-item-title>{{ user.username }}</v-list-item-title>
+          <v-list-item href="http://127.0.0.1:8000/logout">Log Out</v-list-item>
+        </v-list-item>
+        <v-divider></v-divider>
 
-                            <a href="/logout" class="btn btn-warning btn-sm">Log out</a>
-                        </span>
-            <span v-else>not authenticated</span>
-          </p>
-          <p class="text-white">
-            Check out the API Docs: <a v-bind:href="entrypoint" class="text-white"><u>{{ entrypoint }}</u></a>
-          </p>
-        </div>
-        <div class="col-xs-12 col-md-6 px-5" style="background-color: #7FB7D7; padding-bottom: 150px;">
-          <h2 class="text-center mb-5 pt-5 text-white">Or, login!</h2>
-          <auth-login
-                  v-on:user-authenticated="onUserAuthenticated"
-          ></auth-login>
-        </div>
-      </div>
-      <footer class="footer">
+        <v-list dense>
+          <v-list-item
+                  v-for="item in items"
+                  :key="item.title"
+                  :to="item.link"
+                  link
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-        <p class="text-muted my-5 text-center">Made with ❤️ by the <a style="text-decoration: underline; color: #6c757d; font-weight: bold;" href="http://www.symfonycasts.com">SymfonyCasts</a> Team</p>
-
-      </footer>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      <v-main>
+        <router-view></router-view>
+      </v-main>
     </div>
+    <div v-else class="wrapper">
+      <div style="position:relative;">
+        <div class="row no-gutters" style="box-shadow: 0 3px 7px 1px rgba(0,0,0,0.06);">
+          <div class="col py-5">
+            <h1 class="text-center">Creative Calendar</h1>
+            <h6 class="text-center">Because someone wants your left-over cheese.</h6>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-xs-12 col-md-6 px-5" style="background-color: #659dbd; padding-bottom: 150px;">
+            <h2 class="text-center mb-5 pt-5 text-white">API</h2>
+            <p class="text-white">
+              You are currently
+              <span v-if="user">
+                              authenticated as {{ user.username }}
+
+                              <a href="/logout" class="btn btn-warning btn-sm">Log out</a>
+                          </span>
+              <span v-else>not authenticated</span>
+            </p>
+            <p class="text-white">
+              Check out the API Docs: <a v-bind:href="entrypoint" class="text-white"><u>{{ entrypoint }}</u></a>
+            </p>
+          </div>
+          <div class="col-xs-12 col-md-6 px-5" style="background-color: #7FB7D7; padding-bottom: 150px;">
+            <h2 class="text-center mb-5 pt-5 text-white">Or, login!</h2>
+            <auth-login
+                    v-on:user-authenticated="onUserAuthenticated"
+            ></auth-login>
+          </div>
+        </div>
+        <footer class="footer">
+
+          <p class="text-muted my-5 text-center">Made with ❤️ by the <a style="text-decoration: underline; color: #6c757d; font-weight: bold;" href="http://www.symfonycasts.com">SymfonyCasts</a> Team</p>
+
+        </footer>
+      </div>
   </div>
   </v-app>
 </template>
@@ -44,6 +86,7 @@
 <script>
   import axios from 'axios';
   import AuthLogin from './components/Authorization/AuthLogin'
+  import Logo from './assets/logo-60x60.png';
 
   export default {
     components: {
@@ -59,7 +102,16 @@
     },
     data() {
       return {
-        user: null
+        myLogo: Logo,
+        user: null,
+        drawer: true,
+        items: [
+          { title: 'Home', icon: 'mdi-home-city', link: '/' },
+          { title: 'Neuer Termin', icon: 'mdi-calendar-clock', link: '/new-event' },
+          { title: 'Neuer Kunde', icon: 'mdi-account-plus', link: '/new-user' },
+          { title: 'Kundenstamm', icon: 'mdi-account-group-outline', link: '/user-list' },
+        ],
+        mini: true
       }
     },
     mounted() {

@@ -39,20 +39,18 @@
         </v-main>
     </v-app>
 </template>
-
 <script>
-
-    export default {
-        name: 'Home',
-        data: () => ({
-            drawer: true,
-            items: [
-                { title: 'Home', icon: 'mdi-home-city', link: '/calendar' },
-                { title: 'Neuer Termin', icon: 'mdi-calendar-clock', link: '/new-event' },
-                { title: 'Neuer Kunde', icon: 'mdi-account-plus', link: '/new-user' },
-                { title: 'Kundenstamm', icon: 'mdi-account-group-outline', link: '/user-list' },
-            ],
-            mini: true
-        }),
-    };
+export default {
+    name: 'Home',
+    data: () => ({
+        drawer: true,
+        items: [
+            { title: 'Home', icon: 'mdi-home-city', link: '/calendar' },
+            { title: 'Neuer Termin', icon: 'mdi-calendar-clock', link: '/new-event' },
+            { title: 'Neuer Kunde', icon: 'mdi-account-plus', link: '/new-user' },
+            { title: 'Kundenstamm', icon: 'mdi-account-group-outline', link: '/user-list' },
+        ],
+        mini: true
+    }),
+};
 </script>

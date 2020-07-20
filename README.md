@@ -16,6 +16,11 @@ composer install
 ```
 yarn watch
 ```
+### Run FrontEnd Hot Reload
+```
+yarn encore dev-server --hot
+```
+ 
 ### Run FrontEnd
 ```
 symfony server:start

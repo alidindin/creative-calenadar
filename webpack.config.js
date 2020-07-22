@@ -15,9 +15,9 @@ Encore
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
     .enableVueLoader()
-    .enableVueLoader(() => {}, {
-        useJsx: true
-    })
+    // .enableVueLoader(() => {}, {
+    //     useJsx: true
+    // })
     /*
      * ENTRY CONFIG
      *
@@ -58,7 +58,11 @@ Encore
     })
     .addPlugin(new VuetifyLoaderPlugin())
     // enables Sass/SCSS support
-    .enableSassLoader()
+    // .enableSassLoader()
+    .enableSassLoader(options => {
+        options.implementation = require('sass')
+        options.fiber = require('fibers')
+    })
 
     // uncomment if you use TypeScript
     // .enableTypeScriptLoader()

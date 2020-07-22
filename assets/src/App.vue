@@ -10,17 +10,18 @@
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
-<!--              <v-img src={require("./assets/images/logo-60x60.png")}></v-img>-->
               <img v-bind:src="myLogo" />
           </v-list-item-avatar>
           <v-list-item-title>Creative Coiffeur</v-list-item-title>
         </v-list-item>
         <v-list-item class="px-2">
-          <v-list-item-title>{{ user.username }}</v-list-item-title>
-          <v-list-item href="http://127.0.0.1:8000/logout">Log Out</v-list-item>
+          <v-list-item-title class="d-flex justify-center"><strong>{{ user.username }}</strong></v-list-item-title>
+          <v-btn color="red" href="http://127.0.0.1:8000/logout">
+            <v-icon>power_settings_new</v-icon>
+            <span>Log Out</span>
+          </v-btn>
         </v-list-item>
         <v-divider></v-divider>
-
         <v-list dense>
           <v-list-item
                   v-for="item in items"
@@ -87,6 +88,7 @@
   import axios from 'axios';
   import AuthLogin from './components/Authorization/AuthLogin'
   import Logo from './assets/logo-60x60.png';
+  import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline } from '@mdi/js'
 
   export default {
     components: {
@@ -106,10 +108,10 @@
         user: null,
         drawer: true,
         items: [
-          { title: 'Home', icon: 'mdi-home-city', link: '/' },
-          { title: 'Neuer Termin', icon: 'mdi-calendar-clock', link: '/new-event' },
-          { title: 'Neuer Kunde', icon: 'mdi-account-plus', link: '/new-user' },
-          { title: 'Kundenstamm', icon: 'mdi-account-group-outline', link: '/user-list' },
+          { title: 'Home', icon: mdiHome, link: '/' },
+          { title: 'Neuer Termin', icon: mdiCalendarClock, link: '/new-event' },
+          { title: 'Neuer Kunde', icon: mdiAccountPlus, link: '/new-user' },
+          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, link: '/user-list' },
         ],
         mini: true
       }

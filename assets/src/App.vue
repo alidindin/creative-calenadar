@@ -37,6 +37,17 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item
+                  link
+          >
+            <v-list-item-icon>
+              <v-icon>mdi_home</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main>
@@ -100,6 +111,12 @@
         axios
                 .get(userUri)
                 .then(response => (this.user = response.data))
+      },
+      newEvent () {
+        this.$refs.callNewEvent.printMicroCart();
+      },
+      test2 () {
+        console.log('test2');
       }
     },
     data() {

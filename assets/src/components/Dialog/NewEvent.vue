@@ -157,6 +157,16 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
+        <!-- Sende Email Dialog -->
+        <v-dialog v-model="showSendEmailDialog" :max-width="800">
+            <v-card>
+                <v-card-title> Schicke deinen Kunden eine Terminbestätigung ...</v-card-title>
+                <div class="d-flex justify-center" style="padding: 30px">
+                    <button @click="sendEmail" type="button" style="margin-right: 20px" class="btn-ok">Ok</button>
+                    <button @click="closeSendEmail" type="button" style="margin-left: 20px" class="btn-later">Später</button>
+                </div>
+            </v-card>
+        </v-dialog>
     </v-form>
 </template>
 
@@ -171,7 +181,8 @@
         },
         name: 'NewEvent',
         data: vm => ({
-            showEventInputDialog: true,
+            showEventInputDialog: false,
+            showSendEmailDialog: false,
             dateStart: new Date().toISOString().substr(0, 10),
             dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
             menuStart: false,
@@ -269,7 +280,7 @@
                 this.showEventInputDialog = true
 
                 // Prevent navigating to narrower view (default vue-cal behavior).
-                e.stopPropagation()
+                // e.stopPropagation()
             },
             postEvent () {
                 this.event = {
@@ -296,7 +307,20 @@
                 const hours = `0${new Date(time).getHours()}`.slice(-2);
                 const minutes = `0${new Date(time).getMinutes()}`.slice(-2);
                 this.timeEnd = `${hours}:${minutes}`
-            }
+            },
+            sendEmail () {
+                console.log(this.event);
+                this.$store.dispatch('sendEmail', this.event);
+                this.$refs.form.reset();
+                this.showSendEmailDialog = false;
+                setTimeout(function() { window.location.reload(); }, 300);
+            },
+            closeSendEmail () {
+                console.log(this.event);
+                this.$refs.form.reset();
+                this.showSendEmailDialog = false;
+                setTimeout(function() { window.location.reload(); }, 300);
+            },
         },
         mounted() {
             this.$store.dispatch('getUsers');

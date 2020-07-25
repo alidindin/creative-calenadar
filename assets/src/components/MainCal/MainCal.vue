@@ -60,7 +60,7 @@
                 </v-card>
             </v-dialog>
             <!-- Create Event Dialog -->
-            <new-event />
+            <new-event ref="callNewEventDialog" />
 <!--            <v-form-->
 <!--                    ref="form"-->
 <!--                    v-model="userInputsValid"-->
@@ -607,6 +607,9 @@ methods: {
   }
 },
 mounted() {
+    this.$root.$on('addEvent', () => {
+        this.$refs.callNewEventDialog.addEvent();
+    })
   this.$store.dispatch('getEvents');
   this.$store.dispatch('getUsers');
 }

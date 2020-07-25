@@ -28,6 +28,7 @@
                   :key="item.title"
                   :to="item.link"
                   link
+                  @click="item.click"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -35,17 +36,6 @@
 
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-                  link
-          >
-            <v-list-item-icon>
-              <v-icon>mdi_home</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>Home</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -105,6 +95,20 @@
     components: {
       AuthLogin
     },
+    data() {
+      return {
+        myLogo: Logo,
+        user: null,
+        drawer: true,
+        items: [
+          { title: 'Home', icon: mdiHome, link: '/', click: this.newEvent },
+          { title: 'Neuer Termin', icon: mdiCalendarClock, link: '/new-event', click: this.newEvent },
+          { title: 'Neuer Kunde', icon: mdiAccountPlus, link: '/new-user', click: this.newEvent },
+          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, link: '/user-list', click: this.test2 },
+        ],
+        mini: true
+      }
+    },
     props: ['entrypoint'],
     methods: {
       onUserAuthenticated (userUri) {
@@ -113,24 +117,10 @@
                 .then(response => (this.user = response.data))
       },
       newEvent () {
-        this.$refs.callNewEvent.printMicroCart();
+        this.$root.$emit('addEvent');
       },
       test2 () {
         console.log('test2');
-      }
-    },
-    data() {
-      return {
-        myLogo: Logo,
-        user: null,
-        drawer: true,
-        items: [
-          { title: 'Home', icon: mdiHome, link: '/' },
-          { title: 'Neuer Termin', icon: mdiCalendarClock, link: '/new-event' },
-          { title: 'Neuer Kunde', icon: mdiAccountPlus, link: '/new-user' },
-          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, link: '/user-list' },
-        ],
-        mini: true
       }
     },
     mounted() {

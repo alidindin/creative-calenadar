@@ -2,7 +2,7 @@
     <!-- Create Event Dialog -->
     <v-form
             ref="form"
-            v-model="userInputsValid"
+            v-model="eventInputsValid"
             :lazy-validation="lazy"
     >
         <v-dialog v-model="showEventInputDialog" :max-width="1200">
@@ -148,6 +148,7 @@
                             type="text"
                     ></v-text-field>
                     <v-btn
+                            :disabled="!eventInputsValid"
                             @click="postEvent"
                             text
                     >
@@ -171,161 +172,157 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import 'vue-cal/dist/vuecal.css'
-    import '../../css/cal.css'
+import { mapGetters } from 'vuex'
+import 'vue-cal/dist/vuecal.css'
+import '../../css/cal.css'
 
 
-    export default {
-        components: {
+export default {
+    name: 'NewEvent',
+    data: vm => ({
+        showEventInputDialog: false,
+        showSendEmailDialog: false,
+        dateStart: new Date().toISOString().substr(0, 10),
+        dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
+        menuStart: false,
+        timeStart: null,
+        timeEnd: null,
+        menuTimeStart: false,
+        menuTimeEnd: false,
+        start: undefined,
+        end: undefined,
+        title: undefined,
+        content: undefined,
+        contentFull: undefined,
+        gender: undefined,
+        selectedClass: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        email: undefined,
+        phone: undefined,
+        itemRules: [
+            v => !!v || 'Item is required'
+        ],
+        inputRules: [
+            v => !!v || 'Item is required'
+        ],
+        rules: {
+            email: v => (v || '').match(/@/) || 'Please enter a valid email',
+            length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
+            required: v => !!v || 'This field is required',
         },
-        name: 'NewEvent',
-        data: vm => ({
-            showEventInputDialog: false,
-            showSendEmailDialog: false,
-            dateStart: new Date().toISOString().substr(0, 10),
-            dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
-            menuStart: false,
-            timeStart: null,
-            timeEnd: null,
-            menuTimeStart: false,
-            menuTimeEnd: false,
-            start: undefined,
-            end: undefined,
-            title: undefined,
-            content: undefined,
-            contentFull: undefined,
-            gender: undefined,
-            selectedClass: undefined,
-            firstName: undefined,
-            lastName: undefined,
-            email: undefined,
-            phone: undefined,
-            itemRules: [
-                v => !!v || 'Item is required'
-            ],
-            inputRules: [
-                v => !!v || 'Item is required'
-            ],
-            rules: {
-                email: v => (v || '').match(/@/) || 'Please enter a valid email',
-                length: len => v => (v || '').length >= len || `Invalid character length, required ${len}`,
-                required: v => !!v || 'This field is required',
-            },
-            selectedEvent: {},
-            userInputsValid: true,
-            selectedUser: [],
-            showEventDialog: false,
-            notice: undefined,
-            event: undefined,
-            lazy: false
+        selectedEvent: {},
+        eventInputsValid: true,
+        selectedUser: [],
+        showEventDialog: false,
+        notice: undefined,
+        event: undefined,
+        lazy: false
+    }),
+    computed: {
+        ...mapGetters({
+            getEvents: 'events',
+            getUsers: 'users'
         }),
-        computed: {
-            ...mapGetters({
-                getEvents: 'events',
-                getUsers: 'users'
-            }),
-            // computedDateFormatted () {
-            //   return this.formatDate(this.date)
-            // },
-            // usersInfo () {
-            //   if (!this.getUsers.data) return [];
-            //   return this.getUsers.data.map((item) => {
-            //     return {
-            //       id: item.id,
-            //       firstName: item.firstName,
-            //       lastName: item.lastName,
-            //       email: item.email,
-            //       phone: item.phone,
-            //       gender: item.gender,
-            //       info: item.contentFull
-            //     }
-            //   })
-            // },
-            usersOptions () {
-                if (!this.getUsers.data) return [];
-                return this.getUsers.data.map((item) => {
-                    return {
-                        value: [item.firstName, item.lastName, item.email, item.info, item.gender],
-                        text: item.lastName + ',' + ' ' + item.firstName
-                    }
-                })
-            }
-        },
+        // computedDateFormatted () {
+        //   return this.formatDate(this.date)
+        // },
+        // usersInfo () {
+        //   if (!this.getUsers.data) return [];
+        //   return this.getUsers.data.map((item) => {
+        //     return {
+        //       id: item.id,
+        //       firstName: item.firstName,
+        //       lastName: item.lastName,
+        //       email: item.email,
+        //       phone: item.phone,
+        //       gender: item.gender,
+        //       info: item.contentFull
+        //     }
+        //   })
+        // },
+        usersOptions () {
+            if (!this.getUsers.data) return [];
+            return this.getUsers.data.map((item) => {
+                return {
+                    value: [item.firstName, item.lastName, item.email, item.info, item.gender],
+                    text: item.lastName + ',' + ' ' + item.firstName
+                }
+            })
+        }
+    },
 // watch: {
 //   date () {
 //     this.dateFormatted = this.formatDate(this.date)
 //   }
 // },
-        props: {
-            format: {
-                type: [String, Number],
-                default: '24h'
-            }
-        },
-        methods: {
-            formatDate (date) {
-                if (!date) return null
-
-                const [year, month, day] = date.split('-')
-                return `${month}/${day}/${year}`
-            },
-            parseDate (date) {
-                if (!date) return null
-
-                const [month, day, year] = date.split('/')
-                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-            },
-            addEvent (e) {
-                this.showEventInputDialog = true
-
-                // Prevent navigating to narrower view (default vue-cal behavior).
-                // e.stopPropagation()
-            },
-            postEvent () {
-                this.event = {
-                    start: this.dateStart + ' ' + this.timeStart,
-                    end:this.dateStart + ' ' + this.timeEnd,
-                    title: this.selectedUser[1] + ', ' + this.selectedUser[0],
-                    email: this.selectedUser[2],
-                    content: this.selectedUser[3],
-                    contentFull: this.notice,
-                    gender: this.selectedUser[4]
-                };
-                console.log('test', this.event);
-                this.$store.dispatch('postEvents', this.event);
-                this.showEventInputDialog = false;
-                this.showSendEmailDialog = true;
-            },
-            endTimeFilter(value) {
-                const timeStartHours = this.timeStart.slice(0,2);
-                const timeStartMinutes = this.timeStart.slice(-2);
-                const newTimeEnd = new Date();
-                newTimeEnd.setHours(timeStartHours);
-                newTimeEnd.setMinutes(timeStartMinutes);
-                const time = newTimeEnd.getTime() + value * 60000;
-                const hours = `0${new Date(time).getHours()}`.slice(-2);
-                const minutes = `0${new Date(time).getMinutes()}`.slice(-2);
-                this.timeEnd = `${hours}:${minutes}`
-            },
-            sendEmail () {
-                console.log(this.event);
-                this.$store.dispatch('sendEmail', this.event);
-                this.$refs.form.reset();
-                this.showSendEmailDialog = false;
-                setTimeout(function() { window.location.reload(); }, 300);
-            },
-            closeSendEmail () {
-                console.log(this.event);
-                this.$refs.form.reset();
-                this.showSendEmailDialog = false;
-                setTimeout(function() { window.location.reload(); }, 300);
-            },
-        },
-        mounted() {
-            this.$store.dispatch('getUsers');
+    props: {
+        format: {
+            type: [String, Number],
+            default: '24h'
         }
+    },
+    methods: {
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${month}/${day}/${year}`
+        },
+        parseDate (date) {
+            if (!date) return null
+
+            const [month, day, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+        addEvent (e) {
+            this.showEventInputDialog = true
+
+            // Prevent navigating to narrower view (default vue-cal behavior).
+            // e.stopPropagation()
+        },
+        postEvent () {
+            this.event = {
+                start: this.dateStart + ' ' + this.timeStart,
+                end:this.dateStart + ' ' + this.timeEnd,
+                title: this.selectedUser[1] + ', ' + this.selectedUser[0],
+                email: this.selectedUser[2],
+                content: this.selectedUser[3],
+                contentFull: this.notice,
+                gender: this.selectedUser[4],
+                owner: ['/api/users/5']
+            };
+            console.log('test', this.event);
+            this.$store.dispatch('postEvents', this.event);
+            this.showEventInputDialog = false;
+            this.showSendEmailDialog = true;
+        },
+        endTimeFilter(value) {
+            const timeStartHours = this.timeStart.slice(0,2);
+            const timeStartMinutes = this.timeStart.slice(-2);
+            const newTimeEnd = new Date();
+            newTimeEnd.setHours(timeStartHours);
+            newTimeEnd.setMinutes(timeStartMinutes);
+            const time = newTimeEnd.getTime() + value * 60000;
+            const hours = `0${new Date(time).getHours()}`.slice(-2);
+            const minutes = `0${new Date(time).getMinutes()}`.slice(-2);
+            this.timeEnd = `${hours}:${minutes}`
+        },
+        sendEmail () {
+            console.log(this.event);
+            this.$store.dispatch('sendEmail', this.event);
+            this.$refs.form.reset();
+            this.showSendEmailDialog = false;
+            setTimeout(function() { window.location.reload(); }, 300);
+        },
+        closeSendEmail () {
+            console.log(this.event);
+            this.$refs.form.reset();
+            this.showSendEmailDialog = false;
+            setTimeout(function() { window.location.reload(); }, 300);
+        },
     }
+}
 </script>
 
 <style scoped>

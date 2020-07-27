@@ -39,13 +39,21 @@
                 </v-card-actions>
             </v-card>
         </v-row>
+        <new-event ref="callNewEventDialog" />
+        <new-user ref="callNewUserDialog" />
     </v-container>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import NewUser from '../Dialog/NewUser'
+  import NewEvent from '../Dialog/NewEvent'
 
   export default {
+      components: {
+          NewUser,
+          NewEvent
+      },
     name: "EventsList",
     computed: {
       ...mapGetters({
@@ -72,7 +80,19 @@
           }
         })
       }
-    }
+    },
+      mounted() {
+          this.$root.$on('addEvent', () => {
+              console.log('main cal add event');
+              this.test();
+              this.$refs.callNewEventDialog.addEvent();
+          })
+          this.$root.$on('addUser', () => {
+              console.log('main cal add user');
+              this.test();
+              this.$refs.callNewUserDialog.addUser();
+          })
+      }
   }
 </script>
 

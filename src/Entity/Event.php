@@ -14,8 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     itemOperations={
  *          "get"={"security" = "is_granted('ROLE_USER')"},
- *          "put" = {"security" = "is_granted('ROLE_USER')"},
- *          "delete"={"security"="is_granted('ROLE_ADMIN')"}
+ *          "put"={
+ *              "security"="is_granted('EDIT', previous_object)",
+ *              "security_message"="Only the creator can edit a cheese listing"
+ *          },
+ *          "delete"={"security"="is_granted('EDIT', previous_object)",}
  *     },
  *     collectionOperations={
  *          "get"={"security" = "is_granted('ROLE_USER')"},
@@ -45,7 +48,7 @@ class Event
      *     maxMessage="Date and Time"
      * )
      */
-    private $Start;
+    private $start;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -56,7 +59,7 @@ class Event
      *     maxMessage="Date and Time"
      * )
      */
-    private $End;
+    private $end;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -67,31 +70,31 @@ class Event
      *     maxMessage="LastName, FristName"
      * )
      */
-    private $Title;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"events:read", "events:write", "user:read", "user:write"})
      */
-    private $Content;
+    private $content;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"events:read", "events:write", "user:read", "user:write"})
      */
-    private $ContentFull;
+    private $contentFull;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"events:read", "events:write", "user:read", "user:write"})
      */
-    private $Gender;
+    private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"events:read", "events:write", "user:read", "user:write"})
      */
-    private $Email;
+    private $email;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="events")
@@ -113,84 +116,84 @@ class Event
 
     public function getStart(): ?string
     {
-        return $this->Start;
+        return $this->start;
     }
 
-    public function setStart(string $Start): self
+    public function setStart(string $start): self
     {
-        $this->Start = $Start;
+        $this->start = $start;
 
         return $this;
     }
 
     public function getEnd(): ?string
     {
-        return $this->End;
+        return $this->end;
     }
 
-    public function setEnd(string $End): self
+    public function setEnd(string $end): self
     {
-        $this->End = $End;
+        $this->end = $end;
 
         return $this;
     }
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(string $Title): self
+    public function setTitle(string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
 
     public function getContent(): ?string
     {
-        return $this->Content;
+        return $this->content;
     }
 
-    public function setContent(?string $Content): self
+    public function setContent(?string $content): self
     {
-        $this->Content = $Content;
+        $this->content = $content;
 
         return $this;
     }
 
     public function getContentFull(): ?string
     {
-        return $this->ContentFull;
+        return $this->contentFull;
     }
 
-    public function setContentFull(?string $ContentFull): self
+    public function setContentFull(?string $contentFull): self
     {
-        $this->ContentFull = $ContentFull;
+        $this->contentFull = $contentFull;
 
         return $this;
     }
 
     public function getGender(): ?string
     {
-        return $this->Gender;
+        return $this->gender;
     }
 
-    public function setGender(string $Gender): self
+    public function setGender(string $gender): self
     {
-        $this->Gender = $Gender;
+        $this->gender = $gender;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): self
+    public function setEmail(string $email): self
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }

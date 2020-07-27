@@ -26,8 +26,6 @@
           <v-list-item
                   v-for="item in items"
                   :key="item.title"
-                  :to="item.link"
-                  link
                   @click="item.click"
           >
             <v-list-item-icon>
@@ -42,6 +40,8 @@
       </v-navigation-drawer>
       <v-main>
         <router-view></router-view>
+        <new-user ref="callNewUserDialog" />
+        <new-event ref="callNewEventDialog" />
       </v-main>
     </div>
     <div v-else class="wrapper">
@@ -90,10 +90,14 @@
   import AuthLogin from './components/Authorization/AuthLogin'
   import Logo from './assets/logo-60x60.png';
   import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline } from '@mdi/js'
+  import NewUser from './components/Dialog/NewUser'
+  import NewEvent from './components/Dialog/NewEvent'
 
   export default {
     components: {
-      AuthLogin
+      AuthLogin,
+      NewUser,
+      NewEvent
     },
     data() {
       return {
@@ -101,10 +105,10 @@
         user: null,
         drawer: true,
         items: [
-          { title: 'Home', icon: mdiHome, link: '/', click: this.newEvent },
-          { title: 'Neuer Termin', icon: mdiCalendarClock, link: '/new-event', click: this.newEvent },
-          { title: 'Neuer Kunde', icon: mdiAccountPlus, link: '/new-user', click: this.newEvent },
-          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, link: '/user-list', click: this.test2 },
+          { title: 'Home', icon: mdiHome, click: this.routerLinkHome },
+          { title: 'Neuer Termin', icon: mdiCalendarClock, click: this.newEvent },
+          { title: 'Neuer Kunde', icon: mdiAccountPlus, click: this.newUser },
+          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, click: this.routerLinkUserList },
         ],
         mini: true
       }
@@ -116,11 +120,17 @@
                 .get(userUri)
                 .then(response => (this.user = response.data))
       },
-      newEvent () {
-        this.$root.$emit('addEvent');
+      newUser () {
+        this.$refs.callNewUserDialog.addUser();
       },
-      test2 () {
-        console.log('test2');
+      newEvent () {
+        this.$refs.callNewEventDialog.addEvent();
+      },
+      routerLinkHome () {
+        this.$router.push('/')
+      },
+      routerLinkUserList () {
+        this.$router.push('/user-list')
       }
     },
     mounted() {

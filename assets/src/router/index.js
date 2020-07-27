@@ -14,22 +14,10 @@ export default new Router({
       component: MainCal
     },
     {
-      path: '/new-event',
-      name: 'NewEvent',
-      component: MainCal,
-      props: { default: false, showEventInputDialog: true }
-    },
-    {
       path: '/user-list',
       name: 'UserList',
       component: UserList
 
-    },
-    {
-      path: '/new-user',
-      name: 'NewUser',
-      component: MainCal,
-      props: { default: false, showUserInputDialog: true }
     }
   ]
 })

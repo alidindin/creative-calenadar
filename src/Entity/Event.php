@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "security"="is_granted('EDIT', previous_object)",
  *              "security_message"="Only the creator can edit a cheese listing"
  *          },
- *          "delete"={"security"="is_granted('EDIT', previous_object)",}
+ *          "delete"={"security"="is_granted('ROLE_USER')",}
  *     },
  *     collectionOperations={
  *          "get"={"security" = "is_granted('ROLE_USER')"},
@@ -36,6 +36,7 @@ class Event
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"events:read"})
      */
     private $id;
 

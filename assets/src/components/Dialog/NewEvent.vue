@@ -117,7 +117,6 @@
                             </div>
                         </v-col>
                     </v-row>
-                    {{ selectedUser }}
                     <div v-if="usersOptions">
                         <v-select
                                 filled

@@ -15,11 +15,7 @@
           <v-list-item-title>Creative Coiffeur</v-list-item-title>
         </v-list-item>
         <v-list-item class="px-2">
-          <v-list-item-title class="d-flex justify-center"><strong>{{ user.username }}</strong></v-list-item-title>
-          <v-btn color="red" href="http://127.0.0.1:8000/logout">
-            <v-icon>power_settings_new</v-icon>
-            <span>Log Out</span>
-          </v-btn>
+          <v-btn @click="showUserDialog" class="d-flex justify-center"><strong>{{ user.username }}</strong></v-btn>
         </v-list-item>
         <v-divider></v-divider>
         <v-list dense>
@@ -82,63 +78,78 @@
         </footer>
       </div>
   </div>
+    <user-dialog
+            :user-data="getUserData"
+            ref="callShowUserDialog"
+    />
   </v-app>
 </template>
 
 <script>
-  import axios from 'axios';
-  import AuthLogin from './components/Authorization/AuthLogin'
-  import Logo from './assets/logo-60x60.png';
-  import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline } from '@mdi/js'
-  import NewUser from './components/Dialog/NewUser'
-  import NewEvent from './components/Dialog/NewEvent'
+import axios from 'axios';
+import AuthLogin from './components/Authorization/AuthLogin'
+import Logo from './assets/logo-60x60.png';
+import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline } from '@mdi/js'
+import NewUser from './components/Dialog/NewUser'
+import NewEvent from './components/Dialog/NewEvent'
+import UserDialog from './components/Dialog/UserDialog'
 
-  export default {
-    components: {
-      AuthLogin,
-      NewUser,
-      NewEvent
+export default {
+  components: {
+    AuthLogin,
+    NewUser,
+    NewEvent,
+    UserDialog
+  },
+  data() {
+    return {
+      myLogo: Logo,
+      user: null,
+      drawer: true,
+      items: [
+        { title: 'Home', icon: mdiHome, click: this.routerLinkHome },
+        { title: 'Neuer Termin', icon: mdiCalendarClock, click: this.newEvent },
+        { title: 'Neuer Kunde', icon: mdiAccountPlus, click: this.newUser },
+        { title: 'Kundenstamm', icon: mdiAccountGroupOutline, click: this.routerLinkUserList },
+      ],
+      mini: true
+    }
+  },
+  props: ['entrypoint'],
+  computed: {
+    getUserData () {
+      if (!this.user) return {}
+      return this.user
+    }
+  },
+  methods: {
+    onUserAuthenticated (userUri) {
+      axios
+              .get(userUri)
+              .then(response => (this.user = response.data))
     },
-    data() {
-      return {
-        myLogo: Logo,
-        user: null,
-        drawer: true,
-        items: [
-          { title: 'Home', icon: mdiHome, click: this.routerLinkHome },
-          { title: 'Neuer Termin', icon: mdiCalendarClock, click: this.newEvent },
-          { title: 'Neuer Kunde', icon: mdiAccountPlus, click: this.newUser },
-          { title: 'Kundenstamm', icon: mdiAccountGroupOutline, click: this.routerLinkUserList },
-        ],
-        mini: true
-      }
+    newUser () {
+      this.$refs.callNewUserDialog.addUser();
     },
-    props: ['entrypoint'],
-    methods: {
-      onUserAuthenticated (userUri) {
-        axios
-                .get(userUri)
-                .then(response => (this.user = response.data))
-      },
-      newUser () {
-        this.$refs.callNewUserDialog.addUser();
-      },
-      newEvent () {
-        this.$refs.callNewEventDialog.addEvent();
-      },
-      routerLinkHome () {
-        this.$router.push('/')
-      },
-      routerLinkUserList () {
-        this.$router.push('/user-list')
-      }
+    newEvent () {
+      this.$refs.callNewEventDialog.addEvent();
     },
-    mounted() {
-      if (window.user) {
-        this.user = window.user;
-      }
+    routerLinkHome () {
+      this.$router.push('/')
+    },
+    routerLinkUserList () {
+      this.$router.push('/user-list')
+    },
+    showUserDialog () {
+      this.$refs.callShowUserDialog.openUserDialog();
+    }
+  },
+  mounted() {
+    if (window.user) {
+      this.user = window.user;
     }
   }
+}
 </script>
 
 <style scoped lang="scss">

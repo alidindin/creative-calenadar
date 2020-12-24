@@ -56,10 +56,10 @@
                     </div>
                     <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
                         <v-col cols="6" md="6" style="background: #F8F9F9;">
-                            <v-card-text style="height: 200px">
+                            <v-card-text style="height: 150px">
                                 <v-icon style="margin-top: -5px">{{ iconCalendarToday }}</v-icon>
                                 <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Termin</p>
-                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px;">
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px;">
                                     <div class="d-inline-flex">
                                     <v-menu
                                             ref="menuTimeStart"
@@ -127,16 +127,16 @@
                             <v-card-text>
                                 <v-icon style="margin-top: -5px">{{ iconUpdate }}</v-icon>
                                 <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Dauer<p/>
-                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px;">
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px;">
                                     <p style="font-size: 16px">{{ actualEvent.endTimeMinutes - actualEvent.startTimeMinutes }} min</p>
                                 </div>
                             </v-card-text>
                         </v-col>
                         <v-col cols="6" md="6" style="background: #F8F9F9;">
-                            <v-card-text>
+                            <v-card-text style="min-height: 150px">
                                 <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>
                                 <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
-                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px;">
                                     <p style="font-size: 16px">{{ actualEvent.content }}</p>
                                 </div>
                             </v-card-text>
@@ -150,6 +150,7 @@
                                             maxlength="120"
                                             full-width
                                             style="font-size: 16px"
+                                            height="50px"
                                     ></v-textarea>
                                 </div>
                             </v-card-text>
@@ -209,7 +210,7 @@
                     </div>
                     <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
                         <v-col cols="6" md="6" style="background: #E8E8E8;">
-                            <v-card-text>
+                            <v-card-text style="min-height: 150px">
                                 <v-icon style="margin-top: -5px">{{ iconCalendarToday }}</v-icon>
                                 <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Termin</p>
                                 <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
@@ -226,7 +227,7 @@
                             </v-card-text>
                         </v-col>
                         <v-col cols="6" md="6" style="background: #E8E8E8;">
-                            <v-card-text>
+                            <v-card-text style="min-height: 150px">
                                 <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>
                                 <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
                                 <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
@@ -459,21 +460,17 @@ export default {
             this.showEditEvent = false
         },
         editEventConfirm() {
-            console.log('editEventConfirm', this.dateStart);
-            console.log('editTimeStart', this.timeStart);
-            console.log('editTimeEnd', this.timeEnd);
-            console.log('editInfo', this.notice);
             this.event = {
                 id: this.actualEvent.id,
                 start: this.dateStart + ' ' + this.timeStart,
                 end:this.dateStart + ' ' + this.timeEnd,
                 title: this.actualEvent.title,
                 content: this.actualEvent.content,
-                contentFull: this.notice,
-                email: this.actualEvent.email,
-                owner: ['/api/users/5']
+                contentFull: this.notice
             }
             this.$store.dispatch('updateEvent', this.event);
+            this.showEditEvent = false;
+            setTimeout(function() { window.location.reload(); }, 300);
         },
         closeEvent () {
             this.showEventDialog = false;

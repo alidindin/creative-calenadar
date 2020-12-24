@@ -8,9 +8,20 @@
                     <v-spacer/>
                     <span>{{ userData.email }}</span>
                     <v-spacer/>
-                    <v-btn color="red" href="http://127.0.0.1:8000/logout">
+                    <v-btn
+                            color="red"
+                            href="http://127.0.0.1:8000/logout"
+                            depressed
+                            style="margin-right: 30px"
+                    >
                         <v-icon>power_settings_new</v-icon>
                         <span>Log Out</span>
+                    </v-btn>
+                    <v-btn
+                            v-on:click="closeUserDialog"
+                            depressed
+                    >
+                        <v-icon>{{ cancel }}</v-icon>
                     </v-btn>
                 </v-card-title>
             </div>
@@ -66,10 +77,12 @@
 </template>
 
 <script>
+import { mdiClose } from '@mdi/js'
 export default {
     name: "UserDialog",
     data() {
         return {
+            cancel: mdiClose,
             showUserDialog: false
         }
     },
@@ -82,6 +95,9 @@ export default {
     methods: {
         openUserDialog () {
             this.showUserDialog = true
+        },
+        closeUserDialog () {
+            this.showUserDialog = false
         }
     }
 }

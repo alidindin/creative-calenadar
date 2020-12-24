@@ -12,7 +12,12 @@
                     <v-icon></v-icon>
                     <span></span>
                     <v-spacer/>
-                    <strong></strong>
+                    <v-btn
+                            v-on:click="closeEventInputDialog"
+                            depressed
+                    >
+                        <v-icon>{{ cancel }}</v-icon>
+                    </v-btn>
                 </v-card-title>
                 <v-card-text>
                     <v-row>
@@ -174,11 +179,13 @@
 import { mapGetters } from 'vuex'
 import 'vue-cal/dist/vuecal.css'
 import '../../css/cal.css'
+import { mdiClose } from '@mdi/js'
 
 
 export default {
     name: 'NewEvent',
     data: vm => ({
+        cancel: mdiClose,
         showEventInputDialog: false,
         showSendEmailDialog: false,
         dateStart: new Date().toISOString().substr(0, 10),
@@ -320,6 +327,9 @@ export default {
             this.showSendEmailDialog = false;
             setTimeout(function() { window.location.reload(); }, 300);
         },
+        closeEventInputDialog () {
+            this.showEventInputDialog = false;
+        }
     }
 }
 </script>

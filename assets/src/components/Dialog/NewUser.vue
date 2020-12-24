@@ -11,7 +11,12 @@
                 <v-icon></v-icon>
                 <span></span>
                 <v-spacer/>
-                <strong></strong>
+                <v-btn
+                        v-on:click="closeNewUserDialog"
+                        depressed
+                >
+                    <v-icon>{{ cancel }}</v-icon>
+                </v-btn>
             </v-card-title>
             <v-card-text>
                 <v-form
@@ -101,9 +106,12 @@
 </template>
 
 <script>
+import { mdiClose } from '@mdi/js'
+
 export default {
     name: "NewUser",
     data: vm => ({
+        cancel: mdiClose,
         showUserInputDialog: false,
         userInputsValid: true,
         contentFull: undefined,
@@ -169,6 +177,9 @@ export default {
             this.$refs.form.reset();
             this.showUserInputDialog = false;
         },
+        closeNewUserDialog () {
+            this.showUserInputDialog = false;
+        }
     }
 }
 </script>

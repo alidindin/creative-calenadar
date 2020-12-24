@@ -1,244 +1,268 @@
 <template>
-    <v-dialog v-model="showEventDialog" :max-width="1200">
+    <div>
+        <!-- Delete Event -->
+        <v-dialog v-model="deleteEventDialog" :max-width="800">
+            <v-card>
+                <v-card-title>Termin löschen ?</v-card-title>
+                <div class="d-flex justify-center" style="padding: 30px">
+                    <button v-on:click="deleteEvent(actualEvent.id)" type="button" style="margin-right: 20px" class="btn-ok">Ja</button>
+                    <button @click="closeDeleteEventDialog" type="button" style="margin-left: 20px" class="btn-later">Nein</button>
+                </div>
+            </v-card>
+        </v-dialog>
         <!-- Show Edit Event -->
-        <div v-if="showEditEvent">
-            <v-card>
-                <div style="background: lightblue">
-                    <v-card-title style="height: 110px">
-                        <span>{{ actualEvent.title }}</span>
-                        <v-spacer/>
-                        <v-menu
-                                ref="menu1"
-                                v-model="menuStart"
-                                :close-on-content-click="false"
-                                transition="scale-transition"
-                                offset-y
-                                max-width="290px"
-                                min-width="290px"
-                        >
-                            <template v-slot:activator="{ on }">
-                                <v-text-field
+        <v-dialog v-model="showEventDialog" :max-width="1200">
+            <div v-if="showEditEvent">
+                <v-card>
+                    <div class="edit-div" style="padding-left: 30px; padding-right: 30px">
+                        <v-card-title style="height: 110px">
+                            <span>{{ actualEvent.title }}</span>
+                            <v-spacer/>
+                            <v-menu
+                                    ref="menu1"
+                                    v-model="menuStart"
+                                    :close-on-content-click="false"
+                                    transition="scale-transition"
+                                    offset-y
+                                    max-width="290px"
+                                    min-width="290px"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-text-field
+                                            v-model="dateStart"
+                                            label="Date"
+                                            hint=""
+                                            persistent-hint
+                                            prepend-icon="mdi-calendar-export"
+                                            @blur="dateStart = parseDate(dateFormattedStart)"
+                                            v-on="on"
+                                            style="max-width: 150px; margin-right: 100px"
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker
                                         v-model="dateStart"
-                                        label="Date"
-                                        hint=""
-                                        persistent-hint
-                                        prepend-icon="mdi-calendar-export"
-                                        @blur="dateStart = parseDate(dateFormattedStart)"
-                                        v-on="on"
-                                        style="max-width: 150px; margin-right: 100px"
-                                ></v-text-field>
-                            </template>
-                            <v-date-picker
-                                    v-model="dateStart"
-                                    no-title
-                                    @input="menuStart = false"
-                            ></v-date-picker>
-                        </v-menu>
-                    </v-card-title>
-                </div>
-                <v-row style="max-width: 100%; padding-top: 40px; padding-right: 25px">
-                    <v-col cols="3" md="3" style="background: lightblue;">
-                        <v-card-text style="height: 200px">
-                            <v-icon>{{ iconCalendarToday }}</v-icon>
-                            <strong>Termin</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <v-menu
-                                        ref="menuTimeStart"
-                                        v-model="menuTimeStart"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="timeStart"
-                                        transition="scale-transition"
-                                        offset-y
-                                        max-width="290px"
-                                        min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on }">
-                                        <v-text-field
+                                        no-title
+                                        @input="menuStart = false"
+                                ></v-date-picker>
+                            </v-menu>
+                            <v-spacer/>
+                            <v-btn
+                                    v-on:click="closeEvent"
+                                    depressed
+                            >
+                                <v-icon>{{ cancel }}</v-icon>
+                            </v-btn>
+                        </v-card-title>
+                    </div>
+                    <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
+                        <v-col cols="6" md="6" style="background: #F8F9F9;">
+                            <v-card-text style="height: 200px">
+                                <v-icon style="margin-top: -5px">{{ iconCalendarToday }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Termin</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px;">
+                                    <div class="d-inline-flex">
+                                    <v-menu
+                                            ref="menuTimeStart"
+                                            v-model="menuTimeStart"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            :return-value.sync="timeStart"
+                                            transition="scale-transition"
+                                            offset-y
+                                            max-width="290px"
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="timeStart"
+                                                    label="Beginn ?"
+                                                    prepend-icon="mdi-clock-in"
+                                                    readonly
+                                                    v-on="on"
+                                                    style="max-width: 100px"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-time-picker
+                                                v-if="menuTimeStart"
                                                 v-model="timeStart"
-                                                label="Beginn ?"
-                                                prepend-icon="mdi-clock-in"
-                                                readonly
-                                                v-on="on"
-                                                style="max-width: 100px"
-                                        ></v-text-field>
-                                    </template>
-                                    <v-time-picker
-                                            v-if="menuTimeStart"
-                                            v-model="timeStart"
-                                            full-width
-                                            format="24hr"
-                                            @click:minute="$refs.menuTimeStart.save(timeStart)"
-                                    ></v-time-picker>
-                                </v-menu>
-                                <v-menu
-                                        ref="menuTimeEnd"
-                                        v-model="menuTimeEnd"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        :return-value.sync="timeEnd"
-                                        transition="scale-transition"
-                                        offset-y
-                                        max-width="290px"
-                                        min-width="290px"
-                                >
-                                    <template v-slot:activator="{ on }">
-                                        <v-text-field
+                                                full-width
+                                                format="24hr"
+                                                @click:minute="$refs.menuTimeStart.save(timeStart)"
+                                        ></v-time-picker>
+                                    </v-menu>
+                                    </div>
+                                    <div class="d-inline-flex">
+                                    <v-menu
+                                            ref="menuTimeEnd"
+                                            v-model="menuTimeEnd"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            :return-value.sync="timeEnd"
+                                            transition="scale-transition"
+                                            offset-y
+                                            max-width="290px"
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="timeEnd"
+                                                    label="Ende ?"
+                                                    prepend-icon="mdi-clock-out"
+                                                    readonly
+                                                    v-on="on"
+                                                    style="max-width: 100px"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-time-picker
+                                                v-if="menuTimeEnd"
                                                 v-model="timeEnd"
-                                                label="Ende ?"
-                                                prepend-icon="mdi-clock-out"
-                                                readonly
-                                                v-on="on"
-                                                style="max-width: 100px"
-                                        ></v-text-field>
-                                    </template>
-                                    <v-time-picker
-                                            v-if="menuTimeEnd"
-                                            v-model="timeEnd"
+                                                full-width
+                                                format="24hr"
+                                                @click:minute="$refs.menuTimeEnd.save(timeEnd)"
+                                        ></v-time-picker>
+                                    </v-menu>
+                                    </div>
+                                </div>
+                            </v-card-text>
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconUpdate }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Dauer<p/>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px;">
+                                    <p style="font-size: 16px">{{ actualEvent.endTimeMinutes - actualEvent.startTimeMinutes }} min</p>
+                                </div>
+                            </v-card-text>
+                        </v-col>
+                        <v-col cols="6" md="6" style="background: #F8F9F9;">
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                    <p style="font-size: 16px">{{ actualEvent.content }}</p>
+                                </div>
+                            </v-card-text>
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconNote }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Notiz</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
+                                    <v-textarea
+                                            v-model="notice"
+                                            counter
+                                            maxlength="120"
                                             full-width
-                                            format="24hr"
-                                            @click:minute="$refs.menuTimeEnd.save(timeEnd)"
-                                    ></v-time-picker>
-                                </v-menu>
-                                <!-- You can also manipulate the `start` & `end` formatted strings.
-                                <li>Event starts at: {{ (selectedEvent.start || '').substring(11) }}</li>
-                                <li>Event ends at: {{ (selectedEvent.end || '').substring(11) }}</li> -->
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: lightblue;">
-                        <v-card-text>
-                            <v-icon>{{ iconUpdate }}</v-icon>
-                            <strong>Dauer</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <p>{{ actualEvent.endTimeMinutes - actualEvent.startTimeMinutes }} min</p>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: lightblue;">
-                        <v-card-text>
-                            <v-icon>{{ iconInfo }}</v-icon>
-                            <strong>Info</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <p>{{ actualEvent.content }}</p>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: lightblue;">
-                        <v-card-text>
-                            <v-icon>{{ iconNote }}</v-icon>
-                            <strong>Notiz</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <v-textarea
-                                        v-model="actualEvent.info"
-                                        counter
-                                        maxlength="120"
-                                        full-width
-                                ></v-textarea>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                </v-row>
-                <v-card-title>
-                    <v-spacer/>
-                    <v-btn
-                            v-on:click="cancelEditEvent"
-                            text
-                    >
-                        <span class="mr-2">Zurück</span>
-                        <v-icon>{{ iconBack }}</v-icon>
-                    </v-btn>
-                    <v-btn
-                            v-on:click="editEventConfirm"
-                            text
-                    >
-                        <span class="mr-2">Speichern</span>
-                        <v-icon>{{ iconCheck }}</v-icon>
-                    </v-btn>
-                </v-card-title>
-            </v-card>
-        </div>
-        <!-- Show Event Dialog -->
-        <div v-else>
-            <v-card>
-                <div v-if="actualEvent.class === 'male'" class="male">
-                    <v-card-title style="height: 110px">
-                        <v-icon>{{ actualEvent.icon }}</v-icon>
-                        <span>{{ actualEvent.title }}</span>
+                                            style="font-size: 16px"
+                                    ></v-textarea>
+                                </div>
+                            </v-card-text>
+                        </v-col>
+                    </v-row>
+                    <v-card-title>
                         <v-spacer/>
-                        <strong>{{ weekDay.day }} {{ actualEvent.start && actualEvent.start.format('DD') }}. {{ month.month }} {{ actualEvent.start && actualEvent.start.format('YYYY') }}</strong>
+                        <v-btn
+                                v-on:click="cancelEditEvent"
+                                text
+                        >
+                            <span class="mr-2">Zurück</span>
+                            <v-icon>{{ iconBack }}</v-icon>
+                        </v-btn>
+                        <v-btn
+                                v-on:click="editEventConfirm"
+                                text
+                        >
+                            <span class="mr-2">Speichern</span>
+                            <v-icon>{{ iconCheck }}</v-icon>
+                        </v-btn>
                     </v-card-title>
-                </div>
-                <div v-else class="female">
-                    <v-card-title style="height: 110px">
-                        <v-icon>{{ actualEvent.icon }}</v-icon>
-                        <span>{{ actualEvent.title }}</span>
+                </v-card>
+            </div>
+            <!-- Show Event Dialog -->
+            <div v-else>
+                <v-card>
+                    <div v-if="actualEvent.class === 'male'" class="male" style="padding-left: 30px; padding-right: 25px;">
+                        <v-card-title style="height: 110px">
+                            <v-icon>{{ actualEvent.icon }}</v-icon>
+                            <span>{{ actualEvent.title }}</span>
+                            <v-spacer/>
+                            <strong>{{ weekDay.day }} {{ actualEvent.start && actualEvent.start.format('DD') }}. {{ month.month }} {{ actualEvent.start && actualEvent.start.format('YYYY') }}</strong>
+                            <v-spacer/>
+                            <v-btn
+                                    v-on:click="closeEvent"
+                                    depressed
+                            >
+                                <v-icon>{{ cancel }}</v-icon>
+                            </v-btn>
+                        </v-card-title>
+                    </div>
+                    <div v-else class="female" style="padding-left: 30px; padding-right: 30px;">
+                        <v-card-title style="height: 110px">
+                            <v-icon>{{ actualEvent.icon }}</v-icon>
+                            <span>{{ actualEvent.title }}</span>
+                            <v-spacer/>
+                            <strong>{{ weekDay.day }} {{ actualEvent.start && actualEvent.start.format('DD') }}. {{ month.month }} {{ actualEvent.start && actualEvent.start.format('YYYY') }}</strong>
+                            <v-spacer/>
+                            <v-btn
+                                    v-on:click="closeEvent"
+                                    depressed
+                            >
+                                <v-icon>{{ cancel }}</v-icon>
+                            </v-btn>
+                        </v-card-title>
+                    </div>
+                    <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
+                        <v-col cols="6" md="6" style="background: #E8E8E8;">
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconCalendarToday }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Termin</p>
+                                <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                    <p class="d-inline-flex" style="font-size: 16px">Beginn: {{ actualEvent.start && actualEvent.start.formatTime() }}</p>
+                                    <p class="d-inline-flex" style="margin-left: 20px; font-size: 16px">Ende: {{ actualEvent.end && actualEvent.end.formatTime() }}</p>
+                                </div>
+                            </v-card-text>
+                            <v-card-text>
+                                <v-icon  style="margin-top: -5px">{{ iconUpdate }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Dauer</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                    <p style="font-size: 16px">{{ actualEvent.endTimeMinutes - actualEvent.startTimeMinutes }} min</p>
+                                </div>
+                            </v-card-text>
+                        </v-col>
+                        <v-col cols="6" md="6" style="background: #E8E8E8;">
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                    <p style="font-size: 16px">{{ actualEvent.content }}</p>
+                                </div>
+                            </v-card-text>
+                            <v-card-text>
+                                <v-icon style="margin-top: -5px">{{ iconNote }}</v-icon>
+                                <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Notiz</p>
+                                <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                    <p style="font-size: 16px">{{ actualEvent.info }}</p>
+                                </div>
+                            </v-card-text>
+                        </v-col>
+                    </v-row>
+                    <v-card-title style="padding-right: 25px;">
                         <v-spacer/>
-                        <strong>{{ weekDay.day }} {{ actualEvent.start && actualEvent.start.format('DD') }}. {{ month.month }} {{ actualEvent.start && actualEvent.start.format('YYYY') }}</strong>
+                        <v-btn
+                                v-on:click="editEvent"
+                                text
+                        >
+                            <span class="mr-2">Bearbeiten</span>
+                            <v-icon>{{ iconCreate }}</v-icon>
+                        </v-btn>
+                        <v-btn
+                                @click="showDeleteEventDialog"
+                                text
+                        >
+                            <span class="mr-2">Löschen</span>
+                            <v-icon>{{ iconDelete }}</v-icon>
+                        </v-btn>
                     </v-card-title>
-                </div>
-                <v-row style="max-width: 100%; padding-top: 40px; padding-right: 25px">
-                    <v-col cols="3" md="3" style="background: #E8E8E8;">
-                        <v-card-text style="height: 200px">
-                            <v-icon>{{ iconCalendarToday }}</v-icon>
-                            <strong>Termin</strong>
-                            <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px">
-                                <p>Beginn: {{ actualEvent.start && actualEvent.start.formatTime() }}</p>
-                                <p>Ende: {{ actualEvent.end && actualEvent.end.formatTime() }}</p>
-                                <!-- You can also manipulate the `start` & `end` formatted strings.
-                                <li>Event starts at: {{ (selectedEvent.start || '').substring(11) }}</li>
-                                <li>Event ends at: {{ (selectedEvent.end || '').substring(11) }}</li> -->
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: #E8E8E8;">
-                        <v-card-text>
-                            <v-icon>{{ iconUpdate }}</v-icon>
-                            <strong>Dauer</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <p>{{ actualEvent.endTimeMinutes - actualEvent.startTimeMinutes }} min</p>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: #E8E8E8;">
-                        <v-card-text>
-                            <v-icon>{{ iconInfo }}</v-icon>
-                            <strong>Info</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <p>{{ actualEvent.content }}</p>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                    <v-col cols="3" md="3" style="background: #E8E8E8;">
-                        <v-card-text>
-                            <v-icon>{{ iconNote }}</v-icon>
-                            <strong>Notiz</strong>
-                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                                <p>{{ actualEvent.info }}</p>
-                            </div>
-                        </v-card-text>
-                    </v-col>
-                </v-row>
-                <v-card-title>
-                    <v-spacer/>
-                    <v-btn
-                            v-on:click="editEvent"
-                            text
-                    >
-                        <span class="mr-2">Bearbeiten</span>
-                        <v-icon>{{ iconCreate }}</v-icon>
-                    </v-btn>
-                    <v-btn
-                            v-on:click="deleteEvent(actualEvent.id)"
-                            text
-                    >
-                        <span class="mr-2">Löschen</span>
-                        <v-icon>{{ iconDelete }}</v-icon>
-                    </v-btn>
-                </v-card-title>
-            </v-card>
-        </div>
-    </v-dialog>
+                </v-card>
+            </div>
+        </v-dialog>
+    </div>
 </template>
 
 <script>
@@ -250,7 +274,8 @@ import {
     mdiCalendarToday,
     mdiUpdate,
     mdiInformationOutline,
-    mdiNoteOutline
+    mdiNoteOutline,
+    mdiClose
 } from '@mdi/js'
 export default {
     name: "SelectedEvent",
@@ -261,6 +286,7 @@ export default {
         }
     },
     data: vm => ({
+        cancel: mdiClose,
         iconDelete: mdiDeleteForever,
         iconCreate: mdiCalendarEdit,
         iconCheck: mdiCheckBold,
@@ -378,7 +404,8 @@ export default {
         event: undefined,
         lazy: false,
         showEditEvent: false,
-        reDate: undefined
+        reDate: undefined,
+        deleteEventDialog: false
     }),
     computed: {
         weekDay() {
@@ -406,6 +433,14 @@ export default {
         showEvent() {
             this.showEventDialog = true;
         },
+        showDeleteEventDialog () {
+            console.log('testtest test test');
+            this.showEventDialog = false;
+            this.deleteEventDialog = true;
+        },
+        closeDeleteEventDialog () {
+          this.deleteEventDialog = false;
+        },
         deleteEvent(id) {
             console.log('selected', this.actualEvent);
             this.$store.dispatch('deleteEvents', id);
@@ -418,6 +453,7 @@ export default {
             this.dateStart = this.actualEvent.start.toISOString().substr(0, 10);
             this.timeStart = this.actualEvent.start.formatTime();
             this.timeEnd = this.actualEvent.end.formatTime();
+            this.notice = this.actualEvent.info;
         },
         cancelEditEvent() {
             this.showEditEvent = false
@@ -426,11 +462,31 @@ export default {
             console.log('editEventConfirm', this.dateStart);
             console.log('editTimeStart', this.timeStart);
             console.log('editTimeEnd', this.timeEnd);
+            console.log('editInfo', this.notice);
+            this.event = {
+                id: this.actualEvent.id,
+                start: this.dateStart + ' ' + this.timeStart,
+                end:this.dateStart + ' ' + this.timeEnd,
+                contentFull: this.notice,
+                owner: ['/api/users/5']
+            }
+            this.$store.dispatch('updateEvent', this.event);
+        },
+        closeEvent () {
+            this.showEventDialog = false;
         }
     }
 }
 </script>
 
 <style scoped>
-
+    .male {
+        border-bottom: 5px solid #0F83E8;
+    }
+    .female {
+        border-bottom: 5px solid #FF93FF;
+    }
+    .edit-div {
+        border-bottom: 5px solid #575757;
+    }
 </style>

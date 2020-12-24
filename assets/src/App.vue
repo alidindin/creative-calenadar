@@ -4,19 +4,19 @@
       <v-navigation-drawer
               v-model="drawer"
               absolute
-              permanent
+              mini-variant
               dark
               right
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
-              <img v-bind:src="myLogo" />
+              <img v-bind:src="myLogo"  @click="showUserDialog" />
           </v-list-item-avatar>
           <v-list-item-title>Creative Coiffeur</v-list-item-title>
         </v-list-item>
-        <v-list-item class="px-2">
-          <v-btn @click="showUserDialog" class="d-flex justify-center"><strong>{{ user.username }}</strong></v-btn>
-        </v-list-item>
+<!--        <v-list-item class="px-2">-->
+<!--          <v-btn @click="showUserDialog" class="d-flex justify-center"><strong>{{ user.username }}</strong></v-btn>-->
+<!--        </v-list-item>-->
         <v-divider></v-divider>
         <v-list dense>
           <v-list-item

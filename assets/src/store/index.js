@@ -10,6 +10,7 @@ export default new Vuex.Store({
     events: StoreUtil.state(),
     postEvents: StoreUtil.state(),
     deleteEvent: StoreUtil.state(),
+    updateEvent: StoreUtil.state(),
     users: StoreUtil.state(),
     postUsers: StoreUtil.state(),
     deleteUser: StoreUtil.state(),
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     [types.SET_CCCAL_DELETEEVENTS](state, payload) {
       state.deleteEvent = StoreUtil.updateState(state.deleteEvent, payload);
+    },
+    [types.SET_CCCAL_UPDATEEVENT](state, payload) {
+      state.updateEvent = StoreUtil.updateState(state.updateEvent, payload);
     },
     [types.SET_CCCAL_GETUSERS](state, payload) {
       state.users = StoreUtil.updateState(state.users, payload);
@@ -42,7 +46,7 @@ export default new Vuex.Store({
     getEvents ({ commit }) {
       commit(types.SET_CCCAL_GETEVENTS);
 
-      let url = 'http://127.0.0.1:8000/api/events'
+      let url = 'https://127.0.0.1:8000/api/events'
       return fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -65,7 +69,7 @@ export default new Vuex.Store({
           })
     },
     postEvents ({ commit }, events) {
-      let url = 'http://127.0.0.1:8000/api/events'
+      let url = 'https://127.0.0.1:8000/api/events'
       return fetch(url, {
         method: 'POST',
         mode: 'cors',
@@ -87,7 +91,7 @@ export default new Vuex.Store({
           })
     },
     deleteEvents ({ commit }, id) {
-      let url = `http://127.0.0.1:8000/api/events/` + id;
+      let url = `https://127.0.0.1:8000/api/events/` + id;
       return fetch(url, {
         method: 'DELETE',
         mode: 'cors',
@@ -104,10 +108,34 @@ export default new Vuex.Store({
             commit(types.SET_CCCAL_DELETEEVENTS, e);
           })
     },
+    updateEvent ({ commit }, event) {
+      let url = `https://127.0.0.1:8000/api/events/` + event.id;
+      delete event.id;
+      console.log('event', event)
+      return fetch(url, {
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify(event),
+        headers: {
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(res => {
+            return res.json()
+          })
+          .then(res => {
+            commit(types.SET_CCCAL_UPDATEEVENT, (res.result));
+          })
+          .catch(e => {
+            commit(types.SET_CCCAL_UPDATEEVENT, e);
+          })
+    },
     getUsers ({ commit }) {
       commit(types.SET_CCCAL_GETUSERS);
 
-      let url = 'http://127.0.0.1:8000/api/customers';
+      let url = 'https://127.0.0.1:8000/api/customers';
       return fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -130,7 +158,7 @@ export default new Vuex.Store({
           })
     },
     postUsers ({ commit }, user) {
-      let url = 'http://127.0.0.1:8000/api/customers';
+      let url = 'https://127.0.0.1:8000/api/customers';
       return fetch(url, {
         method: 'POST',
         mode: 'cors',
@@ -152,7 +180,7 @@ export default new Vuex.Store({
           })
     },
     deleteUsers ({ commit }, id) {
-      let url = `http://127.0.0.1:8000/api/customers/` + id;
+      let url = `https://127.0.0.1:8000/api/customers/` + id;
       return fetch(url, {
         method: 'DELETE',
         mode: 'cors',
@@ -170,7 +198,7 @@ export default new Vuex.Store({
           })
     },
     sendEmail ({ commit }, event) {
-      let url = `http://127.0.0.1:8000/email`;
+      let url = `https://127.0.0.1:8000/email`;
       return fetch(url, {
         method: 'POST',
         mode: 'cors',
@@ -193,6 +221,7 @@ export default new Vuex.Store({
     events: state => state.events,
     postEvents: state => state.postEvents,
     deleteEvent: state => state.deleteEvent,
+    updateEvent: state => state.updateEvent,
     users: state => state.users,
     postUsers: state => state.postUsers,
     deleteUser: state => state.deleteUser,

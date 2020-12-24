@@ -11,7 +11,6 @@
             <vue-cal
                     v-if="this.$store.state.events.status.pending === false"
                     class="vuecal--blue-theme"
-                    style="height: auto"
                     default-view="month"
                     click-to-navigate
                     today-button
@@ -666,12 +665,6 @@
 </script>
 
 <style>
-    .male {
-        background: blue;
-    }
-    .female {
-        background: red;
-    }
     .center-v-h {
         position: absolute;
         top: 50%;

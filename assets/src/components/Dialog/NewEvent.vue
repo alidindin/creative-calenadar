@@ -44,10 +44,7 @@
                                 </template>
                                 <v-date-picker v-model="dateStart" no-title @input="menuStart = false"></v-date-picker>
                             </v-menu>
-
-                            <p>Date in ISO format: <strong>{{ dateStart }}</strong></p>
                         </v-col>
-
                         <v-col cols="6" md="6">
                             <div v-if="selectedUser[3] === 'male'" style="max-width: 500px; height: 50px; margin-left: 30px; background-color: deepskyblue"></div>
                             <div v-if="selectedUser[3] === 'female'" style="max-width: 500px; height: 50px; margin-left: 30px; background-color: deeppink"></div>

@@ -2,15 +2,16 @@
   <v-app>
     <div v-if="user">
       <v-navigation-drawer
+              class="nav"
               v-model="drawer"
               absolute
-              mini-variant
+              :mini-variant.sync="mini"
               dark
               right
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
-              <img v-bind:src="myLogo"  @click="showUserDialog" />
+              <img v-bind:src="myLogo" @click.stop="mini = !mini" />
           </v-list-item-avatar>
           <v-list-item-title>Creative Coiffeur</v-list-item-title>
         </v-list-item>
@@ -19,6 +20,14 @@
 <!--        </v-list-item>-->
         <v-divider></v-divider>
         <v-list dense>
+          <v-list-item  @click="showUserDialog">
+            <v-list-item-icon>
+              <v-icon>{{ adminIcon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ this.user.username }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-list-item
                   v-for="item in items"
                   :key="item.title"
@@ -89,7 +98,7 @@
 import axios from 'axios';
 import AuthLogin from './components/Authorization/AuthLogin'
 import Logo from './assets/logo-60x60.png';
-import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline } from '@mdi/js'
+import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline, mdiAccountSupervisor, mdiReload } from '@mdi/js'
 import NewUser from './components/Dialog/NewUser'
 import NewEvent from './components/Dialog/NewEvent'
 import UserDialog from './components/Dialog/UserDialog'
@@ -111,7 +120,9 @@ export default {
         { title: 'Neuer Termin', icon: mdiCalendarClock, click: this.newEvent },
         { title: 'Neuer Kunde', icon: mdiAccountPlus, click: this.newUser },
         { title: 'Kundenstamm', icon: mdiAccountGroupOutline, click: this.routerLinkUserList },
+        { title: 'Reload', icon: mdiReload, click: this.reload },
       ],
+      adminIcon: mdiAccountSupervisor,
       mini: true
     }
   },
@@ -141,7 +152,11 @@ export default {
       this.$router.push('/user-list')
     },
     showUserDialog () {
+      console.log('test', this.user);
       this.$refs.callShowUserDialog.openUserDialog();
+    },
+    reload () {
+      setTimeout(function() { window.location.reload(); }, 300);
     }
   },
   mounted() {
@@ -159,5 +174,8 @@ export default {
     width: 100%;
     min-height: 60px;
     background-color: #f5f5f5;
+  }
+  .nav {
+    z-index: 100;
   }
 </style>

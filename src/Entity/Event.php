@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     itemOperations={
  *          "get"={"security" = "is_granted('ROLE_USER')"},
  *          "put"={
- *              "security"="is_granted('EDIT', previous_object)",
+ *              "security"="is_granted('ROLE_USER')",
  *              "security_message"="Only the creator can edit a cheese listing"
  *          },
  *          "delete"={"security"="is_granted('ROLE_USER')",}

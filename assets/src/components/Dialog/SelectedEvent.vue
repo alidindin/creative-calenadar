@@ -467,7 +467,10 @@ export default {
                 id: this.actualEvent.id,
                 start: this.dateStart + ' ' + this.timeStart,
                 end:this.dateStart + ' ' + this.timeEnd,
+                title: this.actualEvent.title,
+                content: this.actualEvent.content,
                 contentFull: this.notice,
+                email: this.actualEvent.email,
                 owner: ['/api/users/5']
             }
             this.$store.dispatch('updateEvent', this.event);

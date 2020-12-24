@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="008b5290-58d5-4106-94de-fd7d3af8c7db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/assets/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/components/Dialog/NewEvent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/components/Dialog/NewEvent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/components/Dialog/NewUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/components/Dialog/NewUser.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/components/Dialog/UserDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/components/Dialog/UserDialog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/components/MainCal/MainCal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/components/MainCal/MainCal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/src/store/mutation-types.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/src/store/mutation-types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Event.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Event.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,11 +44,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="928">
-                  <caret line="470" column="39" selection-start-line="470" selection-start-column="39" selection-end-line="470" selection-end-column="39" />
+                <state relative-caret-position="958">
+                  <caret line="472" column="46" selection-start-line="472" selection-start-column="46" selection-end-line="472" selection-end-column="46" />
                   <folding>
                     <element signature="n#style#0;n#div#0;n#v-card#0;n#v-dialog#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                     <element signature="n#style#0;n#button#0;n#div#0;n#v-card#0;n#v-dialog#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -112,11 +107,35 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Controller/FrontEndController.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="360">
+                  <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+                  <folding>
+                    <element signature="e#34#99#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Entity/Event.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="444">
+                  <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+                  <folding>
+                    <element signature="e#30#74#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/assets/src/store/index.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="733">
-                  <caret line="87" column="12" lean-forward="true" selection-start-line="87" selection-start-column="12" selection-end-line="87" selection-end-column="12" />
+                  <caret line="87" column="12" selection-start-line="87" selection-start-column="12" selection-end-line="87" selection-end-column="12" />
                   <folding>
                     <element signature="e#0#21#0" expanded="true" />
                   </folding>
@@ -249,7 +268,6 @@
         <option value="$PROJECT_DIR$/assets/src/components/EventsList/EventsList.vue" />
         <option value="$PROJECT_DIR$/src/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Security/Voter/EventVoter.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Event.php" />
         <option value="$PROJECT_DIR$/assets/src/css/cal.css" />
         <option value="$PROJECT_DIR$/assets/src/components/DatePicker/DatePicker.vue" />
         <option value="$PROJECT_DIR$/assets/src/components/Dialog/UserLogin.vue" />
@@ -259,8 +277,9 @@
         <option value="$PROJECT_DIR$/assets/src/components/Dialog/UserDialog.vue" />
         <option value="$PROJECT_DIR$/assets/src/components/MainCal/MainCal.vue" />
         <option value="$PROJECT_DIR$/assets/src/store/mutation-types.js" />
-        <option value="$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue" />
         <option value="$PROJECT_DIR$/assets/src/store/index.js" />
+        <option value="$PROJECT_DIR$/src/Entity/Event.php" />
+        <option value="$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue" />
       </list>
     </option>
   </component>
@@ -457,7 +476,13 @@
             <path>
               <item name="creative-calendar" type="b2602c69:ProjectViewProjectNode" />
               <item name="creative-calendar" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="creative-calendar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="creative-calendar" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="creative-calendar" type="b2602c69:ProjectViewProjectNode" />
@@ -552,12 +577,12 @@
       <workItem from="1600607699654" duration="13848000" />
       <workItem from="1601282092391" duration="11688000" />
       <workItem from="1601734450796" duration="3706000" />
-      <workItem from="1608472341857" duration="15718000" />
+      <workItem from="1608472341857" duration="16675000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="200367000" />
+    <option name="totallyTimeSpent" value="201324000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3360" y="23" width="3360" height="1867" extended-state="6" />
@@ -821,16 +846,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/FrontEndController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="e#34#99#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/src/css/cal.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -891,16 +906,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Event.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="55" column="5" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="74" />
-          <folding>
-            <element signature="e#30#74#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/src/components/Dialog/NewUser.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -956,6 +961,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/src/store/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="733">
+          <caret line="87" column="12" selection-start-line="87" selection-start-column="12" selection-end-line="87" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/src/components/Dialog/NewEvent.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="86">
@@ -976,10 +991,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+          <folding>
+            <element signature="e#30#74#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/FrontEndController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding>
+            <element signature="e#34#99#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/src/components/Dialog/SelectedEvent.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="928">
-          <caret line="470" column="39" selection-start-line="470" selection-start-column="39" selection-end-line="470" selection-end-column="39" />
+        <state relative-caret-position="958">
+          <caret line="472" column="46" selection-start-line="472" selection-start-column="46" selection-end-line="472" selection-end-column="46" />
           <folding>
             <element signature="n#style#0;n#div#0;n#v-card#0;n#v-dialog#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#0;n#div#0;n#v-card#0;n#v-dialog#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -1033,16 +1068,6 @@
             <element signature="n#style#0;n#p#0;n#div#0;n#v-card-text#1;n#v-col#1;n#v-row#0;n#v-card#0;n#div#1;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#v-card-title#0;n#v-card#0;n#div#1;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
             <element signature="e#13128#13318#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/src/store/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
-          <caret line="87" column="12" lean-forward="true" selection-start-line="87" selection-start-column="12" selection-end-line="87" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>

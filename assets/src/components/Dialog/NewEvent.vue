@@ -160,15 +160,7 @@
             </v-card>
         </v-dialog>
         <!-- Sende Email Dialog -->
-        <v-dialog v-model="showSendEmailDialog" :max-width="800">
-            <v-card>
-                <v-card-title> Schicke deinen Kunden eine Terminbestätigung ...</v-card-title>
-                <div class="d-flex justify-center" style="padding: 30px">
-                    <button @click="sendEmail" type="button" style="margin-right: 20px" class="btn-ok">Ok</button>
-                    <button @click="closeSendEmail" type="button" style="margin-left: 20px" class="btn-later">Später</button>
-                </div>
-            </v-card>
-        </v-dialog>
+        <event-confirmation-email ref="callShowSendEmail" :actual-event="event" />
     </v-form>
 </template>
 
@@ -177,14 +169,16 @@ import { mapGetters } from 'vuex'
 import 'vue-cal/dist/vuecal.css'
 import '../../css/cal.css'
 import { mdiClose } from '@mdi/js'
-
+import EventConfirmationEmail from './EventConfirmationEmail'
 
 export default {
     name: 'NewEvent',
+    components: {
+        EventConfirmationEmail
+    },
     data: vm => ({
         cancel: mdiClose,
         showEventInputDialog: false,
-        showSendEmailDialog: false,
         dateStart: new Date().toISOString().substr(0, 10),
         dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
         menuStart: false,
@@ -278,11 +272,8 @@ export default {
             const [month, day, year] = date.split('/')
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
-        addEvent (e) {
+        addEvent () {
             this.showEventInputDialog = true
-
-            // Prevent navigating to narrower view (default vue-cal behavior).
-            // e.stopPropagation()
         },
         postEvent () {
             this.event = {
@@ -298,7 +289,8 @@ export default {
             console.log('test', this.event);
             this.$store.dispatch('postEvents', this.event);
             this.showEventInputDialog = false;
-            this.showSendEmailDialog = true;
+            this.$refs.form.reset();
+            this.$refs.callShowSendEmail.showSendMailDialog()
         },
         endTimeFilter(value) {
             const timeStartHours = this.timeStart.slice(0,2);
@@ -310,19 +302,6 @@ export default {
             const hours = `0${new Date(time).getHours()}`.slice(-2);
             const minutes = `0${new Date(time).getMinutes()}`.slice(-2);
             this.timeEnd = `${hours}:${minutes}`
-        },
-        sendEmail () {
-            console.log(this.event);
-            this.$store.dispatch('sendEmail', this.event);
-            this.$refs.form.reset();
-            this.showSendEmailDialog = false;
-            setTimeout(function() { window.location.reload(); }, 300);
-        },
-        closeSendEmail () {
-            console.log(this.event);
-            this.$refs.form.reset();
-            this.showSendEmailDialog = false;
-            setTimeout(function() { window.location.reload(); }, 300);
         },
         closeEventInputDialog () {
             this.showEventInputDialog = false;

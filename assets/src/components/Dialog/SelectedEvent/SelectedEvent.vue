@@ -1,15 +1,7 @@
 <template>
     <div>
         <!-- Delete Event -->
-        <v-dialog v-model="deleteEventDialog" :max-width="800">
-            <v-card>
-                <v-card-title>Termin löschen ?</v-card-title>
-                <div class="d-flex justify-center" style="padding: 30px">
-                    <button v-on:click="deleteEvent(actualEvent.id)" type="button" style="margin-right: 20px" class="btn-ok">Ja</button>
-                    <button @click="closeDeleteEventDialog" type="button" style="margin-left: 20px" class="btn-later">Nein</button>
-                </div>
-            </v-card>
-        </v-dialog>
+        <delete-event ref="callShowDeleteEventDialog" :actual-event-for-delete="actualEvent" />
         <!-- Show Edit Event -->
         <v-dialog v-model="showEventDialog" :max-width="1200">
             <div v-if="showEditEvent">
@@ -278,8 +270,13 @@ import {
     mdiNoteOutline,
     mdiClose
 } from '@mdi/js'
+import DeleteEvent from './DeleteEvent';
+
 export default {
     name: "SelectedEvent",
+    components: {
+      DeleteEvent
+    },
     props: {
         actualEvent: {
             type: Object,
@@ -405,8 +402,7 @@ export default {
         event: undefined,
         lazy: false,
         showEditEvent: false,
-        reDate: undefined,
-        deleteEventDialog: false
+        reDate: undefined
     }),
     computed: {
         weekDay() {
@@ -437,7 +433,8 @@ export default {
         showDeleteEventDialog () {
             console.log('testtest test test');
             this.showEventDialog = false;
-            this.deleteEventDialog = true;
+            this.$refs.callShowDeleteEventDialog.showDeleteDialog()
+            // this.deleteEventDialog = true;
         },
         closeDeleteEventDialog () {
           this.deleteEventDialog = false;

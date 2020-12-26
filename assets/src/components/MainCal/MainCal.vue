@@ -43,7 +43,7 @@
         mdiInformationOutline,
         mdiNoteOutline
     } from '@mdi/js'
-    import SelectedEvent from '../Dialog/SelectedEvent'
+    import SelectedEvent from '../Dialog/SelectedEvent/SelectedEvent'
 
     export default {
         components: {

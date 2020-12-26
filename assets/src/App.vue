@@ -152,7 +152,6 @@ export default {
       this.$router.push('/user-list')
     },
     showUserDialog () {
-      console.log('test', this.user);
       this.$refs.callShowUserDialog.openUserDialog();
     },
     reload () {

@@ -12,6 +12,7 @@ export default new Vuex.Store({
     deleteEvent: StoreUtil.state(),
     updateEvent: StoreUtil.state(),
     users: StoreUtil.state(),
+    user: StoreUtil.state(),
     postUsers: StoreUtil.state(),
     deleteUser: StoreUtil.state(),
     email: StoreUtil.state()
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     [types.SET_CCCAL_GETUSERS](state, payload) {
       state.users = StoreUtil.updateState(state.users, payload);
+    },
+    [types.SET_CCCAL_GETUSER](state, payload) {
+      state.user = StoreUtil.updateState(state.user, payload);
     },
     [types.SET_CCCAL_POSTUSERS](state, payload) {
       state.postUsers = StoreUtil.updateState(state.postUsers, payload);
@@ -157,6 +161,31 @@ export default new Vuex.Store({
             commit(types.SET_CCCAL_GETUSERS, e);
           })
     },
+    getUser ({ commit }, id) {
+      commit(types.SET_CCCAL_GETUSER);
+
+      let url = 'https://127.0.0.1:8000/api/customers/' + id;
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(res => {
+            return res.json()
+          })
+          .then(res => {
+            commit(types.SET_CCCAL_GETUSER, res);
+          })
+          .catch(e => {
+            commit(types.SET_CCCAL_GETUSER, e);
+          })
+    },
     postUsers ({ commit }, user) {
       let url = 'https://127.0.0.1:8000/api/customers';
       return fetch(url, {
@@ -223,6 +252,7 @@ export default new Vuex.Store({
     deleteEvent: state => state.deleteEvent,
     updateEvent: state => state.updateEvent,
     users: state => state.users,
+    user: state => state.user,
     postUsers: state => state.postUsers,
     deleteUser: state => state.deleteUser,
     email: state => state.email

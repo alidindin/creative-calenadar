@@ -176,6 +176,7 @@ export default {
             this.$store.dispatch('postUsers', user);
             this.$refs.form.reset();
             this.showUserInputDialog = false;
+            this.$router.go(0);
         },
         closeNewUserDialog () {
             this.showUserInputDialog = false;

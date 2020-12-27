@@ -4,60 +4,97 @@
             <h1 class="mb-10">Kundenstamm</h1>
         </v-row>
         <v-row class="text-center">
-            <v-card
-                    v-for="users in this.getUsers.data"
-                    :key="users.id"
-                    class="mx-auto mb-10"
-                    max-width="500"
-                    outlined
+            <v-virtual-scroll
+                    :items="userData"
+                    :item-height="50"
+                    height="600"
             >
-                <v-list-item
-                        three-line
-                >
-                    <v-list-item-content>
-                        <div class="overline mb-4">OVERLINE</div>
-                        <v-list-item-title class="headline mb-4">{{ users.firstName }} {{ users.lastName }}</v-list-item-title>
+                <template v-slot:default="{ item }">
+                    <v-list-item>
+                        <div v-if="item.gender === 'male'">
+                        <v-list-item-avatar>
+                            <v-avatar
+                                    color="blue lighten-1"
+                                    size="56"
+                                    class="white--text"
+                            >
+                                {{ item.initals }}
+                            </v-avatar>
+                        </v-list-item-avatar>
+                        </div>
+                        <div v-else>
+                            <v-list-item-avatar>
+                                <v-avatar
+                                        color="pink lighten-1"
+                                        size="56"
+                                        class="white--text"
+                                >
+                                    {{ item.initals }}
+                                </v-avatar>
+                            </v-list-item-avatar>
+                        </div>
+                        <v-list-item-content width="200">
+                            <v-list-item-title class="text-left">{{ item.lastName }}, {{ item.firstName }}</v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content width="200">
+                            <v-list-item-title class="text-left">{{ item.phone }}</v-list-item-title>
+                        </v-list-item-content>
 
-                        <div class="overline mb-2 text-left">Email</div>
-                        <div class="overline mb-5 text-left">{{ users.email }}</div>
-                        <div class="overline mb-2 text-left">Telefon</div>
-                        <div class="overline mb-5 text-left">{{ users.phone }}</div>
-                        <div class="overline mb-2 text-left">Info</div>
-                        <div class="overline mb-5 text-left">{{ users.info }}</div>
-                    </v-list-item-content>
+                        <v-list-item-action>
+                            <v-btn
+                                    depressed
+                                    small
+                            >
+                                View User
 
-                    <v-list-item-avatar
-                            v-if="users.gender === 'male'"
-                            tile
-                            size="80"
-                            color="blue"
-                    ></v-list-item-avatar>
-                    <v-list-item-avatar
-                            v-else
-                            tile
-                            size="80"
-                            color="red"
-                    ></v-list-item-avatar>
-                </v-list-item>
-
-                <v-card-actions>
-                    <v-btn text>Button</v-btn>
-                    <v-btn text>Button</v-btn>
-                </v-card-actions>
-            </v-card>
+                                <v-icon
+                                        color="orange darken-4"
+                                        right
+                                >
+                                    {{ openIcon }}
+                                </v-icon>
+                            </v-btn>
+                        </v-list-item-action>
+                    </v-list-item>
+                </template>
+            </v-virtual-scroll>
         </v-row>
     </v-container>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import { mdiOpenInNew } from '@mdi/js'
 
   export default {
     name: "UserList",
-    computed: {
+      data: vm => ({
+          openIcon: mdiOpenInNew
+      }),
+      computed: {
       ...mapGetters({
         getUsers: 'users'
       }),
+      userData () {
+        if (!this.getUsers.data) return [];
+           return this.getUsers.data.map((item) => {
+                return {
+                    id: item.id,
+                    firstName: item.firstName,
+                    lastName: item.firstName,
+                    initals: item.firstName.charAt(0).toUpperCase() + item.lastName.charAt(0).toUpperCase(),
+                    email: item.email,
+                    phone: item.phone,
+                    info: item.info,
+                    gender: item.gender
+                }
+           })
+      }
+    },
+    methods: {
+        showUserDialog () {
+            console.log('user test')
+        }
     }
   }
 </script>

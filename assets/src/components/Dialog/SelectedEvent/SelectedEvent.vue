@@ -478,10 +478,10 @@ export default {
 
 <style scoped>
     .male {
-        border-bottom: 5px solid #0F83E8;
+        border-bottom: 5px solid #42A5F5;
     }
     .female {
-        border-bottom: 5px solid #FF93FF;
+        border-bottom: 5px solid #EC407A;
     }
     .edit-div {
         border-bottom: 5px solid #575757;

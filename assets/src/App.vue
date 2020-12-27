@@ -8,6 +8,7 @@
               :mini-variant.sync="mini"
               dark
               right
+              app
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
@@ -155,7 +156,8 @@ export default {
       this.$refs.callShowUserDialog.openUserDialog();
     },
     reload () {
-      setTimeout(function() { window.location.reload(); }, 300);
+      this.$router.go(0);
+      // setTimeout(function() { window.location.reload(); }, 300);
     }
   },
   mounted() {

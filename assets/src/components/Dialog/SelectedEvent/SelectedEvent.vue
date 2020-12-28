@@ -172,7 +172,7 @@
                 <v-card>
                     <div v-if="actualEvent.class === 'male'" class="male" style="padding-left: 30px; padding-right: 25px;">
                         <v-card-title style="height: 110px">
-                            <v-icon>{{ actualEvent.icon }}</v-icon>
+<!--                            <v-icon>{{ actualEvent.icon }}</v-icon>-->
                             <span>{{ actualEvent.title }}</span>
                             <v-spacer/>
                             <strong>{{ weekDay.day }} {{ actualEvent.start && actualEvent.start.format('DD') }}. {{ month.month }} {{ actualEvent.start && actualEvent.start.format('YYYY') }}</strong>
@@ -433,11 +433,7 @@ export default {
         showDeleteEventDialog () {
             console.log('testtest test test');
             this.showEventDialog = false;
-            this.$refs.callShowDeleteEventDialog.showDeleteDialog()
-            // this.deleteEventDialog = true;
-        },
-        closeDeleteEventDialog () {
-          this.deleteEventDialog = false;
+            this.$refs.callShowDeleteEventDialog.showDeleteDialog();
         },
         deleteEvent(id) {
             console.log('selected', this.actualEvent);
@@ -470,6 +466,7 @@ export default {
             setTimeout(function() { window.location.reload(); }, 300);
         },
         closeEvent () {
+            this.showEditEvent = false
             this.showEventDialog = false;
         }
     }

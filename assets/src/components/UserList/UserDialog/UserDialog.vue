@@ -179,14 +179,6 @@
                                 <v-icon>{{ iconDelete }}</v-icon>
                             </v-btn>
                         </v-card-title>
-                        <!--                            <v-btn-->
-                        <!--                                    :disabled="!userInputsValid"-->
-                        <!--                                    @click="postUser"-->
-                        <!--                                    text-->
-                        <!--                            >-->
-                        <!--                                <span class="mr-2">Hinzufügen</span>-->
-                        <!--                                <v-icon>mdi-calendar-plus</v-icon>-->
-                        <!--                            </v-btn>-->
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -213,7 +205,9 @@ export default {
         iconCheck: mdiCheckBold,
         iconBack: mdiArrowLeftBox,
         showUserDialog: false,
-        showUserEditDialog: false
+        showUserEditDialog: false,
+        userInputsValid: true,
+        lazy: false
     }),
     computed: {
         ...mapGetters({
@@ -228,7 +222,6 @@ export default {
         showUserDialogHandler (id) {
             this.showUserDialog = true
             this.$store.dispatch('getUser', id);
-            console.log('id',this.userId)
         },
         closeUserDialogHandler () {
             this.showUserEditDialog = false

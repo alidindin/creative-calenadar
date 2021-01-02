@@ -235,7 +235,7 @@
                             </v-card-text>
                         </v-col>
                     </v-row>
-                    <v-card-title style="padding-right: 25px;">
+                    <v-card-title style="padding-right: 35px;">
                         <v-spacer/>
                         <v-btn
                                 v-on:click="editEvent"
@@ -271,6 +271,8 @@ import {
     mdiClose
 } from '@mdi/js'
 import DeleteEvent from './DeleteEvent';
+import Weekdays from '../../../resource/weekdays'
+import Months from '../../../resource/months'
 
 export default {
     name: "SelectedEvent",
@@ -293,86 +295,8 @@ export default {
         iconUpdate: mdiUpdate,
         iconInfo: mdiInformationOutline,
         iconNote: mdiNoteOutline,
-        weekDaysData : [
-            {
-                value: 0,
-                day: 'Sonntag'
-            },
-            {
-                value: 1,
-                day: 'Montag'
-            },
-            {
-                value: 2,
-                day: 'Dienstag'
-            },
-            {
-                value: 3,
-                day: 'Mittwoch'
-            },
-            {
-                value: 4,
-                day: 'Donnerstag'
-            },
-            {
-                value: 5,
-                day: 'Freitag'
-            },
-            {
-                value: 6,
-                day: 'Samstag'
-            }
-        ],
-        monthsData : [
-            {
-                value: 0,
-                month: 'Januar'
-            },
-            {
-                value: 1,
-                motnh: 'Februar'
-            },
-            {
-                value: 2,
-                month: 'März'
-            },
-            {
-                value: 3,
-                month: 'April'
-            },
-            {
-                value: 4,
-                month: 'Mai'
-            },
-            {
-                value: 5,
-                month: 'Juni'
-            },
-            {
-                value: 6,
-                month: 'Juli'
-            },
-            {
-                value: 7,
-                month: 'August'
-            },
-            {
-                value: 8,
-                month: 'September'
-            },
-            {
-                value: 9,
-                month: 'Oktober'
-            },
-            {
-                value: 10,
-                month: 'November'
-            },
-            {
-                value: 11,
-                month: 'Dezember'
-            }
-        ],
+        weekDaysData: Weekdays,
+        monthsData : Months,
         dateStart: null,
         dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
         menuStart: false,
@@ -405,54 +329,51 @@ export default {
         reDate: undefined
     }),
     computed: {
-        weekDay() {
+        weekDay () {
             if (!this.actualEvent.start) return [];
             return this.weekDaysData.find(item => item.value === this.actualEvent.start.getDay());
         },
-        month() {
+        month () {
             if (!this.actualEvent.start) return [];
             return this.monthsData.find(item => item.value === this.actualEvent.start.getMonth());
         }
     },
     methods: {
-        formatDate(date) {
+        formatDate (date) {
             if (!date) return null
 
             const [year, month, day] = date.split('-')
             return `${month}/${day}/${year}`
         },
-        parseDate(date) {
+        parseDate (date) {
             if (!date) return null
-
             const [month, day, year] = date.split('/')
             return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         },
-        showEvent() {
+        showEvent () {
             this.showEventDialog = true;
         },
         showDeleteEventDialog () {
-            console.log('testtest test test');
             this.showEventDialog = false;
             this.$refs.callShowDeleteEventDialog.showDeleteDialog();
         },
-        deleteEvent(id) {
-            console.log('selected', this.actualEvent);
+        deleteEvent (id) {
             this.$store.dispatch('deleteEvents', id);
             setTimeout(function () {
                 window.location.reload();
             }, 500);
         },
-        editEvent() {
+        editEvent () {
             this.showEditEvent = true
             this.dateStart = this.actualEvent.start.toISOString().substr(0, 10);
             this.timeStart = this.actualEvent.start.formatTime();
             this.timeEnd = this.actualEvent.end.formatTime();
             this.notice = this.actualEvent.info;
         },
-        cancelEditEvent() {
+        cancelEditEvent () {
             this.showEditEvent = false
         },
-        editEventConfirm() {
+        editEventConfirm () {
             this.event = {
                 id: this.actualEvent.id,
                 start: this.dateStart + ' ' + this.timeStart,
@@ -469,6 +390,10 @@ export default {
             this.showEditEvent = false
             this.showEventDialog = false;
         }
+    },
+    mounted() {
+        console.log('test', this.weekDay)
+        console.log('test 2', this.month)
     }
 }
 </script>

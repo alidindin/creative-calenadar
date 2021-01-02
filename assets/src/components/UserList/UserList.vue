@@ -50,29 +50,48 @@
                             <v-btn
                                     depressed
                                     small
+                                    v-on:click="showUserDialog(item.id)"
+                                    style="margin-left: 16px; margin-right: 16px"
                             >
-                                E-Mail
                                 <v-icon
                                         color="orange darken-3"
-                                        right
+                                        left
+                                >
+                                    {{ openIcon }}
+                                </v-icon>
+                                Edit
+                            </v-btn>
+                        </v-list-item-action>
+
+                        <v-list-item-action>
+                            <v-btn
+                                    depressed
+                                    small
+                                    style="margin-left: 16px; margin-right: 16px"
+                            >
+                                <v-icon
+                                        color="cyan lighten-4"
+                                        left
                                 >
                                     {{ iconEmail }}
                                 </v-icon>
+                                E-Mail
                             </v-btn>
                         </v-list-item-action>
+
                         <v-list-item-action>
                             <v-btn
                                     depressed
                                     small
                                     v-on:click="showWhatsAppDialog(item.id)"
                             >
-                                WhatsApp
                                 <v-icon
                                         color="green darken-1"
-                                        right
+                                        left
                                 >
                                     {{ waIcon }}
                                 </v-icon>
+                                WhatsApp
                             </v-btn>
                         </v-list-item-action>
                     </v-list-item>

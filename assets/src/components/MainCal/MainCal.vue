@@ -44,6 +44,8 @@
         mdiNoteOutline
     } from '@mdi/js'
     import SelectedEvent from '../Dialog/SelectedEvent/SelectedEvent'
+    import WeekDays from '../../resource/weekdays'
+    import Months from '../../resource/months'
 
     export default {
         components: {
@@ -85,86 +87,8 @@
             iconUpdate: mdiUpdate,
             iconInfo: mdiInformationOutline,
             iconNote: mdiNoteOutline,
-            weekDaysData : [
-                {
-                    value: 0,
-                    day: 'Sonntag'
-                },
-                {
-                    value: 1,
-                    day: 'Montag'
-                },
-                {
-                    value: 2,
-                    day: 'Dienstag'
-                },
-                {
-                    value: 3,
-                    day: 'Mittwoch'
-                },
-                {
-                    value: 4,
-                    day: 'Donnerstag'
-                },
-                {
-                    value: 5,
-                    day: 'Freitag'
-                },
-                {
-                    value: 6,
-                    day: 'Samstag'
-                }
-            ],
-            monthsData : [
-                {
-                    value: 0,
-                    month: 'Januar'
-                },
-                {
-                    value: 1,
-                    motnh: 'Februar'
-                },
-                {
-                    value: 2,
-                    month: 'März'
-                },
-                {
-                    value: 3,
-                    month: 'April'
-                },
-                {
-                    value: 4,
-                    month: 'Mai'
-                },
-                {
-                    value: 5,
-                    month: 'Juni'
-                },
-                {
-                    value: 6,
-                    month: 'Juli'
-                },
-                {
-                    value: 7,
-                    month: 'August'
-                },
-                {
-                    value: 8,
-                    month: 'September'
-                },
-                {
-                    value: 9,
-                    month: 'Oktober'
-                },
-                {
-                    value: 10,
-                    month: 'November'
-                },
-                {
-                    value: 11,
-                    month: 'Dezember'
-                }
-            ],
+            weekDaysData : WeekDays,
+            monthsData : Months,
             dateStart: null,
             dateFormattedStart: vm.formatDate(new Date().toISOString().substr(0, 10)),
             menuStart: false,

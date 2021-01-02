@@ -21,73 +21,216 @@
                             v-model="userInputsValid"
                             :lazy-validation="lazy"
                     >
-                        <v-row>
-                            <v-col cols="6" md="6">
-                                <v-text-field
-                                        v-model="firstName"
-                                        :rules="nameRules"
-                                        filled
-                                        color="deep-purple"
-                                        label="Vorname"
-                                        style="min-height: 96px"
-                                        type="text"
-                                ></v-text-field>
+                        <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
+                            <v-col cols="6" md="6" style="background: #F8F9F9;">
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconEmail }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Vorname</p>
+                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                        <v-text-field
+                                                v-model="firstName"
+                                                :rules="nameRules"
+                                                filled
+                                                color="deep-purple"
+                                                label="Vorname"
+                                                style="min-height: 96px"
+                                                type="text"
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconEmail }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Email</p>
+                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                        <v-text-field
+                                                v-model="email"
+                                                :rules="emailRules"
+                                                filled
+                                                color="deep-purple"
+                                                label="E-Mail"
+                                                style="min-height: 96px"
+                                                type="text"
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon  style="margin-top: -5px">{{ phoneIcon }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Telefon</p>
+                                    <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                        <v-text-field
+                                                v-model="phone"
+                                                :rules="phoneRules"
+                                                filled
+                                                color="deep-purple"
+                                                label="Telefon"
+                                                style="min-height: 96px"
+                                                type="number"
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
                             </v-col>
-                            <v-col cols="6" md="6">
-                                <v-text-field
-                                        v-model="lastName"
-                                        :rules="nameRules"
-                                        filled
-                                        color="deep-purple"
-                                        label="Nachname"
-                                        style="min-height: 96px"
-                                        type="text"
-                                ></v-text-field>
+                            <v-col cols="6" md="6" style="background: #F8F9F9;">
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconEmail }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Vorname</p>
+                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                        <v-text-field
+                                                v-model="firstName"
+                                                :rules="nameRules"
+                                                filled
+                                                color="deep-purple"
+                                                label="Vorname"
+                                                style="min-height: 96px"
+                                                type="text"
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconGender }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Type</p>
+                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                        <v-select
+                                                filled
+                                                color="deep-purple"
+                                                v-model="selectedClass"
+                                                :items="genderOptions"
+                                                :rules="itemRules"
+                                                label="Haartyp"
+                                                required
+                                        ></v-select>
+                                    </div>
+                                </v-card-text>
+                                <v-card-text style="min-height: 150px; margin-top: 10px;">
+                                    <v-icon  style="margin-top: -5px">{{ iconInfo }}</v-icon>
+                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
+                                    <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                        <v-text-field
+                                                v-model="contentFull"
+                                                :rules="textRules"
+                                                filled
+                                                color="deep-purple"
+                                                label="Info"
+                                                style="min-height: 96px"
+                                                type="text"
+                                        ></v-text-field>
+                                    </div>
+                                </v-card-text>
                             </v-col>
+<!--                            <v-col cols="6" md="6" style="background: #F8F9F9;">-->
+<!--                                <v-card-text style="min-height: 150px">-->
+<!--                                    <v-icon  style="margin-top: -5px">{{ phoneIcon }}</v-icon>-->
+<!--                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Nachname</p>-->
+<!--                                    <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">-->
+<!--                                        <v-text-field-->
+<!--                                                v-model="lastName"-->
+<!--                                                :rules="nameRules"-->
+<!--                                                filled-->
+<!--                                                color="deep-purple"-->
+<!--                                                label="Nachname"-->
+<!--                                                style="min-height: 96px"-->
+<!--                                                type="text"-->
+<!--                                        ></v-text-field>-->
+<!--                                    </div>-->
+<!--                                </v-card-text>-->
+<!--                                <v-card-text style="min-height: 150px">-->
+<!--                                    <v-icon style="margin-top: -5px">{{ genderIcon }}</v-icon>-->
+<!--                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Typ</p>-->
+<!--                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">-->
+<!--                                        <v-select-->
+<!--                                                filled-->
+<!--                                                color="deep-purple"-->
+<!--                                                v-model="selectedClass"-->
+<!--                                                :items="genderOptions"-->
+<!--                                                :rules="itemRules"-->
+<!--                                                label="Haartyp"-->
+<!--                                                required-->
+<!--                                        ></v-select>-->
+<!--                                    </div>-->
+<!--                                </v-card-text>-->
+<!--                                <v-card-text style="min-height: 150px">-->
+<!--                                    <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>-->
+<!--                                    <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>-->
+<!--                                    <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">-->
+<!--                                        <v-text-field-->
+<!--                                                v-model="contentFull"-->
+<!--                                                :rules="textRules"-->
+<!--                                                filled-->
+<!--                                                color="deep-purple"-->
+<!--                                                label="Info"-->
+<!--                                                style="min-height: 96px"-->
+<!--                                                type="text"-->
+<!--                                        ></v-text-field>-->
+<!--                                    </div>-->
+<!--                                </v-card-text>-->
+<!--                            </v-col>-->
                         </v-row>
-                        <v-row>
-                            <v-col cols="6" md="6">
-                                <v-text-field
-                                        v-model="email"
-                                        :rules="emailRules"
-                                        filled
-                                        color="deep-purple"
-                                        label="E-Mail"
-                                        style="min-height: 96px"
-                                        type="text"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="6" md="6">
-                                <v-text-field
-                                        v-model="phone"
-                                        :rules="phoneRules"
-                                        filled
-                                        color="deep-purple"
-                                        label="Telefon"
-                                        style="min-height: 96px"
-                                        type="number"
-                                ></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <v-select
-                                filled
-                                color="deep-purple"
-                                v-model="selectedClass"
-                                :items="genderOptions"
-                                :rules="itemRules"
-                                label="Haartyp"
-                                required
-                        ></v-select>
-                        <v-text-field
-                                v-model="contentFull"
-                                :rules="textRules"
-                                filled
-                                color="deep-purple"
-                                label="Info"
-                                style="min-height: 96px"
-                                type="text"
-                        ></v-text-field>
-                        <v-card-title>
+<!--                        <v-row>-->
+<!--                            <v-col cols="6" md="6">-->
+<!--                                <v-text-field-->
+<!--                                        v-model="firstName"-->
+<!--                                        :rules="nameRules"-->
+<!--                                        filled-->
+<!--                                        color="deep-purple"-->
+<!--                                        label="Vorname"-->
+<!--                                        style="min-height: 96px"-->
+<!--                                        type="text"-->
+<!--                                ></v-text-field>-->
+<!--                            </v-col>-->
+<!--                            <v-col cols="6" md="6">-->
+<!--                                <v-text-field-->
+<!--                                        v-model="lastName"-->
+<!--                                        :rules="nameRules"-->
+<!--                                        filled-->
+<!--                                        color="deep-purple"-->
+<!--                                        label="Nachname"-->
+<!--                                        style="min-height: 96px"-->
+<!--                                        type="text"-->
+<!--                                ></v-text-field>-->
+<!--                            </v-col>-->
+<!--                        </v-row>-->
+<!--                        <v-row>-->
+<!--                            <v-col cols="6" md="6">-->
+<!--                                <v-text-field-->
+<!--                                        v-model="email"-->
+<!--                                        :rules="emailRules"-->
+<!--                                        filled-->
+<!--                                        color="deep-purple"-->
+<!--                                        label="E-Mail"-->
+<!--                                        style="min-height: 96px"-->
+<!--                                        type="text"-->
+<!--                                ></v-text-field>-->
+<!--                            </v-col>-->
+<!--                            <v-col cols="6" md="6">-->
+<!--                                <v-text-field-->
+<!--                                        v-model="phone"-->
+<!--                                        :rules="phoneRules"-->
+<!--                                        filled-->
+<!--                                        color="deep-purple"-->
+<!--                                        label="Telefon"-->
+<!--                                        style="min-height: 96px"-->
+<!--                                        type="number"-->
+<!--                                ></v-text-field>-->
+<!--                            </v-col>-->
+<!--                        </v-row>-->
+<!--                        <v-select-->
+<!--                                filled-->
+<!--                                color="deep-purple"-->
+<!--                                v-model="selectedClass"-->
+<!--                                :items="genderOptions"-->
+<!--                                :rules="itemRules"-->
+<!--                                label="Haartyp"-->
+<!--                                required-->
+<!--                        ></v-select>-->
+<!--                        <v-text-field-->
+<!--                                v-model="contentFull"-->
+<!--                                :rules="textRules"-->
+<!--                                filled-->
+<!--                                color="deep-purple"-->
+<!--                                label="Info"-->
+<!--                                style="min-height: 96px"-->
+<!--                                type="text"-->
+<!--                        ></v-text-field>-->
+                        <v-card-title style="padding-right: 35px;">
                             <v-spacer/>
                             <v-btn
                                     v-on:click="cancelEditUser"
@@ -110,7 +253,7 @@
         </div>
         <div v-else>
             <v-card>
-                <div v-if="userData.gender === 'male'" class="male" style="padding-left: 30px; padding-right: 25px;">
+                <div v-if="userData.gender === 'male'" class="male" style="padding-left: 30px; padding-right: 35px;">
                     <v-card-title>
                         <h1>{{ userData.lastName }}, {{ userData.firstName }}</h1>
                         <v-icon></v-icon>
@@ -124,7 +267,7 @@
                         </v-btn>
                     </v-card-title>
                 </div>
-                <div v-else class="female" style="padding-left: 30px; padding-right: 25px;">
+                <div v-else class="female" style="padding-left: 30px; padding-right: 35px;">
                     <v-card-title>
                         <h1>{{ userData.lastName }}, {{ userData.firstName }}</h1>
                         <v-icon></v-icon>
@@ -144,25 +287,41 @@
                             v-model="userInputsValid"
                             :lazy-validation="lazy"
                     >
-                        <v-row>
-                            <v-col cols="6" md="6">
-                                {{ userData.email }}
+                        <v-row style="max-width: 100%; padding-left: 50px; padding-right: 25px; padding-top: 30px">
+                            <v-col cols="6" md="6" style="background: #F8F9F9;">
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconEmail }}</v-icon>
+                                        <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Email</p>
+                                            <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                                {{ userData.email }}
+                                            </div>
+                                </v-card-text>
+                                <v-card-text>
+                                    <v-icon  style="margin-top: -5px">{{ phoneIcon }}</v-icon>
+                                        <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Telefon</p>
+                                            <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px; min-height: 70px">
+                                                {{ userData.phone }}
+                                            </div>
+                                </v-card-text>
                             </v-col>
-                            <v-col cols="6" md="6">
-                                {{ userData.phone }}
+                            <v-col cols="6" md="6" style="background: #F8F9F9;">
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconGender }}</v-icon>
+                                        <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Typ</p>
+                                            <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                                {{ userData.gender }}
+                                            </div>
+                                </v-card-text>
+                                <v-card-text style="min-height: 150px">
+                                    <v-icon style="margin-top: -5px">{{ iconInfo }}</v-icon>
+                                        <p style="font-size: 20px; font-weight: bold" class="d-inline-flex">Info</p>
+                                            <div style="margin-top: 20px; line-height: 0.8; padding-left: 5px; min-height: 70px;">
+                                                {{ userData.info }}
+                                            </div>
+                                </v-card-text>
                             </v-col>
                         </v-row>
-                        <v-row>
-                            <v-col cols="12" md="12">
-                                {{ userData.gender }}
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" md="12">
-                                {{ userData.info }}
-                            </v-col>
-                        </v-row>
-                        <v-card-title style="padding-right: 25px;">
+                        <v-card-title style="padding-right: 35px;">
                             <v-spacer/>
                             <v-btn
                                     v-on:click="editUser"
@@ -193,7 +352,11 @@ import {
     mdiDeleteForever,
     mdiCalendarEdit,
     mdiCheckBold,
-    mdiArrowLeftBox
+    mdiArrowLeftBox,
+    mdiEmail,
+    mdiPhone,
+    mdiGenderMaleFemale,
+    mdiInformationOutline
 } from '@mdi/js'
 export default {
     name: "UserDialog",
@@ -204,6 +367,10 @@ export default {
         iconCreate: mdiCalendarEdit,
         iconCheck: mdiCheckBold,
         iconBack: mdiArrowLeftBox,
+        iconEmail: mdiEmail,
+        phoneIcon: mdiPhone,
+        iconGender: mdiGenderMaleFemale,
+        iconInfo: mdiInformationOutline,
         showUserDialog: false,
         showUserEditDialog: false,
         userInputsValid: true,

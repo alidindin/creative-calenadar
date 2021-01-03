@@ -96,7 +96,6 @@
             },
             sendWhatsAppMessage () {
                 let url = `https://wa.me/` + this.userData.phone + `/?text=` + this.message;
-                console.log('url', url)
                 window.open(url, '_blank');
                 this.message = undefined;
                 this.closeWhatsAppDialog();

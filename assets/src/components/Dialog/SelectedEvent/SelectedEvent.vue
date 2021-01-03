@@ -392,8 +392,7 @@ export default {
         }
     },
     mounted() {
-        console.log('test', this.weekDay)
-        console.log('test 2', this.month)
+
     }
 }
 </script>

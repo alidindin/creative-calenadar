@@ -15,6 +15,7 @@ export default new Vuex.Store({
     user: StoreUtil.state(),
     postUsers: StoreUtil.state(),
     deleteUser: StoreUtil.state(),
+    updateUser: StoreUtil.state(),
     email: StoreUtil.state()
   },
   mutations: {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     [types.SET_CCCAL_DELETEUSERS](state, payload) {
       state.deleteUser = StoreUtil.updateState(state.deleteUser, payload);
+    },
+    [types.SET_CCCAL_UPDATEUSER](state, payload) {
+      state.updateUser = StoreUtil.updateState(state.updateUser, payload);
     },
     [types.SET_CCCAL_EMAIL](state, payload) {
       state.email = StoreUtil.updateState(state.email, payload);
@@ -226,6 +230,30 @@ export default new Vuex.Store({
             commit(types.SET_CCCAL_DELETEUSERS, e);
           })
     },
+    updateUser ({ commit }, user) {
+      let url = `https://127.0.0.1:8000/api/customers/` + user.id;
+      delete user.id;
+      console.log('event', user)
+      return fetch(url, {
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify(user),
+        headers: {
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(res => {
+            return res.json()
+          })
+          .then(res => {
+            commit(types.SET_CCCAL_UPDATEUSER, (res.result));
+          })
+          .catch(e => {
+            commit(types.SET_CCCAL_UPDATEUSER, e);
+          })
+    },
     sendEmail ({ commit }, event) {
       let url = `https://127.0.0.1:8000/email`;
       return fetch(url, {
@@ -255,6 +283,7 @@ export default new Vuex.Store({
     user: state => state.user,
     postUsers: state => state.postUsers,
     deleteUser: state => state.deleteUser,
+    updateUser: state => state.updateUser,
     email: state => state.email
   }
 });

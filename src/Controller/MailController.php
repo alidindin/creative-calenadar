@@ -26,33 +26,67 @@ class MailController extends AbstractController
     public function sendEmail(Request $request, MailerInterface $mailer): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $start = $data['start'];
-        $end = $data['end'];
-        $title = $data['title'];
-        $gender = $data['gender'];
         $email = $data['email'];
+        $subject = $data['subject'];
+        $body = $data['body'];
 
-        if (empty($start) ||
-            empty($end) ||
-            empty($title) ||
-            empty($gender) ||
-            empty($email)) {
+        if (empty($email) ||
+            empty($subject) ||
+            empty($body)) {
             throw new NotFoundHttpException('Expecting mandatory parameters!');
         }
 
-        $dateTime = date_parse_from_format('Y.n.j H:i', $start);
-        $day = $dateTime['day'];
-        $month = $dateTime['month'];
-        $year = $dateTime['year'];
-        $hour = $dateTime['hour'];
+//        $start = $data['start'];
+//        $end = $data['end'];
+//        $title = $data['title'];
+//        $gender = $data['gender'];
+//        $email = $data['email'];
+//
+//        if (empty($start) ||
+//            empty($end) ||
+//            empty($title) ||
+//            empty($gender) ||
+//            empty($email)) {
+//            throw new NotFoundHttpException('Expecting mandatory parameters!');
+//        }
+//
+//        $dateTime = date_parse_from_format('Y.n.j H:i', $start);
+//        $day = $dateTime['day'];
+//        $month = $dateTime['month'];
+//        $year = $dateTime['year'];
+//        $hour = $dateTime['hour'];
+//
+//        if($dateTime['minute'] === 0){
+//            $minute = '00';
+//        } else {
+//            $minute = $dateTime['minute'];
+//        }
+//
+//        $name = explode(',', $title);
 
-        if($dateTime['minute'] === 0){
-            $minute = '00';
-        } else {
-            $minute = $dateTime['minute'];
-        }
-
-        $name = explode(',', $title);
+//        $email = (new Email())
+//            ->from('hello@example.com')
+//            ->to($email)
+//            //->cc('cc@example.com')
+//            //->bcc('bcc@example.com')
+//            //->replyTo('fabien@example.com')
+//            //->priority(Email::PRIORITY_HIGH)
+//            ->subject('Dein Termin bei Creative Coiffeur!')
+//            ->text('Sending emails is fun again!')
+//            ->html('<p> Hey ' . $name[1] .',</p>' .
+//                '<p> am ' . '<strong>' . $day . '.' . $month . '.' . $year . '</strong>' .' gegen ' . '<strong>' . $hour . ':' . $minute . '</strong>' . ' haben wir einen Termin.</p>' .
+//                '<p> Ich freu mich darauf. Bitte sage rechtzeitig den Termin ab falls du ihn nicht wahrnehmen kannst.</p>' .
+//                '<p> Bleib Gesund</p>' .
+//                '<p> Dein Creative Coiffeur</p>' .
+//                '<p> Sükrü Demir</p>' .
+//                '<br>' .
+//                '<br>' .
+//                '<p>Creative Coiffeur</p>' .
+//                '<p>Sükrü Demir</p>' .
+//                '<p>Viktoriastraße 2</p>' .
+//                '<p>48565 Steinfurt</p>' .
+//                '<p>Tel: 02 55 1 / 98 80 19 6</p>'
+//            );
 
         $email = (new Email())
             ->from('hello@example.com')
@@ -61,22 +95,9 @@ class MailController extends AbstractController
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('Dein Termin bei Creative Coiffeur!')
+            ->subject($subject)
             ->text('Sending emails is fun again!')
-            ->html('<p> Hey ' . $name[1] .',</p>' .
-                '<p> am ' . '<strong>' . $day . '.' . $month . '.' . $year . '</strong>' .' gegen ' . '<strong>' . $hour . ':' . $minute . '</strong>' . ' haben wir einen Termin.</p>' .
-                '<p> Ich freu mich darauf. Bitte sage rechtzeitig den Termin ab falls du ihn nicht wahrnehmen kannst.</p>' .
-                '<p> Bleib Gesund</p>' .
-                '<p> Dein Creative Coiffeur</p>' .
-                '<p> Sükrü Demir</p>' .
-                '<br>' .
-                '<br>' .
-                '<p>Creative Coiffeur</p>' .
-                '<p>Sükrü Demir</p>' .
-                '<p>Viktoriastraße 2</p>' .
-                '<p>48565 Steinfurt</p>' .
-                '<p>Tel: 02 55 1 / 98 80 19 6</p>'
-            );
+            ->html($body);
 
         $mailer->send($email);
 

@@ -254,12 +254,13 @@ export default new Vuex.Store({
             commit(types.SET_CCCAL_UPDATEUSER, e);
           })
     },
-    sendEmail ({ commit }, event) {
+    sendEmail ({ commit }, email) {
       let url = `https://127.0.0.1:8000/email`;
+      console.log('store email', email)
       return fetch(url, {
         method: 'POST',
         mode: 'cors',
-        body: JSON.stringify(event),
+        body: JSON.stringify(email),
         headers: {
           Accept: 'application/json',
           'Access-Control-Allow-Origin': '*',

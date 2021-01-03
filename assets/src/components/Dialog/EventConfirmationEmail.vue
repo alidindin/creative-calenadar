@@ -15,6 +15,7 @@
         name: "SendEmail",
         data: vm => ({
             showSendEmailDialog: false,
+            email: undefined
         }),
         props: {
             actualEvent: {
@@ -27,14 +28,36 @@
                 this.showSendEmailDialog = true;
             },
             sendEmail () {
-                console.log('send', this.actualEvent);
-                this.$store.dispatch('sendEmail', this.actualEvent);
+                let name = this.actualEvent.title.split(",")[1];
+                let dateStart = this.actualEvent.start.split(" ")[0];
+                let time = this.actualEvent.start.split(" ")[1];
+                let newDate = new Date(dateStart);
+                let day = newDate.getDate();
+                let month = newDate.getMonth() + 1;
+                let year = newDate.getFullYear();
+                this.email = {
+                    email: this.actualEvent.email,
+                    subject: 'Dein Termin bei Creative Coiffeur!',
+                    body: '<p> Hey ' + name + ',</p>' +
+                    '<p> am ' + '<strong>' + day + '.' + month + '.' + year + '</strong>' +' gegen ' + '<strong>' + time + '</strong>' + ' haben wir einen Termin.</p>' +
+                    '<p> Ich freu mich darauf. Bitte sage rechtzeitig den Termin ab falls du ihn nicht wahrnehmen kannst.</p>' +
+                    '<p> Bleib Gesund</p>' +
+                    '<p> Dein Creative Coiffeur</p>' +
+                    '<p> Sükrü Demir</p>' +
+                    '<br>' +
+                    '<br>' +
+                    '<p>Creative Coiffeur</p>' +
+                    '<p>Sükrü Demir</p>' +
+                    '<p>Viktoriastraße 2</p>' +
+                    '<p>48565 Steinfurt</p>' +
+                    '<p>Tel: 02 55 1 / 98 80 19 6</p>'
+                }
+                this.$store.dispatch('sendEmail', this.email);
                 // this.$refs.form.reset();
                 this.showSendEmailDialog = false;
                 setTimeout(function() { window.location.reload(); }, 300);
             },
             closeSendEmail () {
-                console.log('close', this.actualEvent);
                 // this.$refs.form.reset();
                 this.showSendEmailDialog = false;
                 setTimeout(function() { window.location.reload(); }, 300);

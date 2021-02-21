@@ -1,8 +1,8 @@
 <template>
     <v-dialog v-model="showUserDialog" :max-width="1200" :max-height="1200">
         <v-card v-if="userData">
-            <div style="background: lightblue">
-                <v-card-title style="height: 110px">
+            <div class="user-div">
+                <v-card-title style="height: 110px; padding-left: 30px; padding-right: 30px">
                     <v-icon></v-icon>
                     <span>{{ userData.username }}</span>
                     <v-spacer/>
@@ -25,45 +25,65 @@
                     </v-btn>
                 </v-card-title>
             </div>
-            <v-row style="max-width: 100%; padding-top: 40px; padding-right: 25px">
-                <v-col cols="3" md="3" style="background: lightblue;">
-                    <v-card-text style="height: 200px">
-                        <v-icon></v-icon>
-                        <strong>Termin</strong>
-                        <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                            <v-list-item
-                                    v-for="item in userData.events"
-                                    :key="item.id"
-                            >
+            <div style="padding-left: 30px; padding-right: 30px">
+            <v-row style="margin-top: 20px">
+                <v-col cols="3">
+                    <div style="line-height: 0.4; padding-left: 5px;">
+                    <v-icon></v-icon>
+                    <strong>Termin</strong>
+                    </div>
+                </v-col>
+                <v-col cols="3">
+                    <div style="line-height: 0.4; padding-left: 5px;">
+                    <v-icon></v-icon>
+                    <strong>Name</strong>
+                    </div>
+                </v-col>
+                <v-col cols="3">
+                    <div style="line-height: 0.4; padding-left: 5px;">
+                    <v-icon></v-icon>
+                    <strong>Typ</strong>
+                    </div>
+                </v-col>
+                <v-col cols="3">
+                    <div style="line-height: 0.4; padding-left: 5px;">
+                    <v-icon></v-icon>
+                    <strong>Info</strong>
+                    </div>
+                </v-col>
+            </v-row>
+            <v-row v-for="item in userData.events" :key="item.id" style="border-bottom: 1px solid #b9bbbe;">
+                <v-col cols="3" md="3">
+                    <v-card-text>
+                        <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px;">
+
                                 {{ item.start }}
-                            </v-list-item>
                         </div>
                     </v-card-text>
                 </v-col>
-                <v-col cols="3" md="3" style="background: lightblue;">
+                <v-col cols="3" md="3">
                     <v-card-text>
-                        <v-icon></v-icon>
-                        <strong>Dauer</strong>
                         <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                            <p></p>
+                            {{ item.title }}
                         </div>
                     </v-card-text>
                 </v-col>
-                <v-col cols="3" md="3" style="background: lightblue;">
+                <v-col cols="3" md="3">
                     <v-card-text>
-                        <v-icon></v-icon>
-                        <strong>Dauer</strong>
                         <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                            <p></p>
+                            <div v-if="item.gender === 'male'">
+                                <p>Herrenhaarschnitt</p>
+                            </div>
+                            <div v-else>
+                                <p>Damenhaarschnitt</p>
+                            </div>
                         </div>
                     </v-card-text>
                 </v-col>
-                <v-col cols="3" md="3" style="background: lightblue;">
+                <v-col cols="3" md="3">
                     <v-card-text>
-                        <v-icon></v-icon>
-                        <strong>Dauer</strong>
                         <div style="margin-top: 20px; line-height: 0.4; padding-left: 5px">
-                            <p></p>
+                            <p>{{ item.content }}</p>
                         </div>
                     </v-card-text>
                 </v-col>
@@ -72,6 +92,7 @@
                 <v-spacer/>
 
             </v-card-title>
+            </div>
         </v-card>
     </v-dialog>
 </template>
@@ -104,5 +125,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .user-div {
+        border-bottom: 5px solid #575757;
+    }
 </style>

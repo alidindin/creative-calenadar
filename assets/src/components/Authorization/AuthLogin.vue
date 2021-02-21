@@ -28,9 +28,11 @@
             <v-row>
                 <v-col
                         cols="12"
-                        md="4"
+                        md="12"
                 >
                     <v-text-field
+                            style="min-width: 200px"
+                            color="blue-grey darken-4"
                             v-model="email"
                             :rules="emailRules"
                             label="E-mail"
@@ -40,9 +42,11 @@
 
                 <v-col
                         cols="12"
-                        md="4"
+                        md="12"
                 >
                     <v-text-field
+                            style="min-width: 200px"
+                            color="blue-grey darken-4"
                             v-model="password"
                             :rules="nameRules"
                             :counter="3"
@@ -60,7 +64,7 @@
             <v-row>
                 <v-btn
                         :disabled="!valid"
-                        color="success"
+                        color="blue-grey lighten-2"
                         class="mr-4"
                         @click="handleSubmit"
                         v-bind:class="{ disabled: isLoading }"
@@ -69,18 +73,11 @@
                 </v-btn>
 
                 <v-btn
-                        color="error"
+                        color="blue-grey lighten-2"
                         class="mr-4"
                         @click="reset"
                 >
                     Reset Form
-                </v-btn>
-
-                <v-btn
-                        color="warning"
-                        @click="resetValidation"
-                >
-                    Reset Validation
                 </v-btn>
             </v-row>
         </v-container>
@@ -140,9 +137,6 @@
             reset () {
                 this.$refs.form.reset()
             },
-            resetValidation () {
-                this.$refs.form.resetValidation()
-            },
             hideError () {
                 this.showError = false;
             }
@@ -151,5 +145,11 @@
 </script>
 
 <style scoped lang="scss">
+    .center-v-h {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 </style>
 

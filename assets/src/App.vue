@@ -1,20 +1,32 @@
 <template>
   <v-app>
     <div v-if="user">
+<!--      <div style="display: flex">-->
+      <div class="container">
+        <v-card-title>
+          <v-spacer/>
+          <strong class="d-flex justify-center">{{ today }}</strong>
+          <v-spacer/>
+                  <v-app-bar-nav-icon
+                          @click.stop="drawer = !drawer"
+                  ></v-app-bar-nav-icon>
+        </v-card-title>
+<!--        <v-app-bar-nav-icon-->
+<!--                @click.stop="drawer = !drawer"-->
+<!--        ></v-app-bar-nav-icon>-->
+      </div>
       <v-navigation-drawer
-              class="nav"
               v-model="drawer"
               absolute
-              :mini-variant.sync="mini"
               dark
-              right
-              app
+              left
+              temporary
       >
         <v-list-item class="px-2">
           <v-list-item-avatar>
-              <img v-bind:src="myLogo" @click.stop="mini = !mini" />
+              <img v-bind:src="myLogo" @click.stop="drawer = !drawer" />
           </v-list-item-avatar>
-          <v-list-item-title>Creative Coiffeur</v-list-item-title>
+          <v-list-item-title  @click.stop="drawer = !drawer">Creative Coiffeur</v-list-item-title>
         </v-list-item>
 <!--        <v-list-item class="px-2">-->
 <!--          <v-btn @click="showUserDialog" class="d-flex justify-center"><strong>{{ user.username }}</strong></v-btn>-->
@@ -55,35 +67,43 @@
         <div class="row no-gutters" style="box-shadow: 0 3px 7px 1px rgba(0,0,0,0.06);">
           <div class="col py-5">
             <h1 class="text-center">Creative Calendar</h1>
-            <h6 class="text-center">Because someone wants your left-over cheese.</h6>
+            <h6 class="text-center">Creative Coiffeur Şükrü Demir</h6>
           </div>
         </div>
-        <div class="row no-gutters">
-          <div class="col-xs-12 col-md-6 px-5" style="background-color: #659dbd; padding-bottom: 150px;">
-            <h2 class="text-center mb-5 pt-5 text-white">API</h2>
-            <p class="text-white">
-              You are currently
-              <span v-if="user">
-                              authenticated as {{ user.username }}
+        <div class="row no-gutters con">
+          <div class="col-xs-12 col-md-6 px-5 con" style="background-color: #ECEFF1;">
+              <v-img
+                      class="center-v-h"
+                      :src="ccLogo"
+                      max-height="400"
+                      max-width="400"
+                  ></v-img>
+<!--            <h2 class="text-center mb-5 pt-5 text-white">API</h2>-->
+<!--            <p class="text-white">-->
+<!--              You are currently-->
+<!--              <span v-if="user">-->
+<!--                              authenticated as {{ user.username }}-->
 
-                              <a href="/logout" class="btn btn-warning btn-sm">Log out</a>
-                          </span>
-              <span v-else>not authenticated</span>
-            </p>
-            <p class="text-white">
-              Check out the API Docs: <a v-bind:href="entrypoint" class="text-white"><u>{{ entrypoint }}</u></a>
-            </p>
+<!--                              <a href="/logout" class="btn btn-warning btn-sm">Log out</a>-->
+<!--                          </span>-->
+<!--              <span v-else>not authenticated</span>-->
+<!--            </p>-->
+<!--            <p class="text-white">-->
+<!--              Check out the API Docs: <a v-bind:href="entrypoint" class="text-white"><u>{{ entrypoint }}</u></a>-->
+<!--            </p>-->
           </div>
-          <div class="col-xs-12 col-md-6 px-5" style="background-color: #7FB7D7; padding-bottom: 150px;">
-            <h2 class="text-center mb-5 pt-5 text-white">Or, login!</h2>
-            <auth-login
-                    v-on:user-authenticated="onUserAuthenticated"
-            ></auth-login>
+          <div class="col-xs-12 col-md-6 px-5 con" style="background-color: #CFD8DC;">
+            <div class="center-v-h">
+              <h2 class="mb-5 pt-5 text-white">Please login...</h2>
+              <auth-login
+                      v-on:user-authenticated="onUserAuthenticated"
+              ></auth-login>
+            </div>
           </div>
         </div>
         <footer class="footer">
 
-          <p class="text-muted my-5 text-center">Made with ❤️ by the <a style="text-decoration: underline; color: #6c757d; font-weight: bold;" href="http://www.symfonycasts.com">SymfonyCasts</a> Team</p>
+          <p class="my-5 text-center">©2021 Şükrü Demir</p>
 
         </footer>
       </div>
@@ -99,10 +119,20 @@
 import axios from 'axios';
 import AuthLogin from './components/Authorization/AuthLogin'
 import Logo from './assets/logo-60x60.png';
-import { mdiHome, mdiCalendarClock, mdiAccountPlus, mdiAccountGroupOutline, mdiAccountSupervisor, mdiReload } from '@mdi/js'
+import {
+  mdiHome,
+  mdiCalendarClock,
+  mdiAccountPlus,
+  mdiAccountGroupOutline,
+  mdiAccountSupervisor,
+  mdiReload,
+  mdiMenu } from '@mdi/js'
 import NewUser from './components/Dialog/NewUser'
 import NewEvent from './components/Dialog/NewEvent'
 import UserDialog from './components/Dialog/UserDialog'
+import Weekdays from './resource/weekdays'
+import Months from './resource/months'
+import CcLogo from  "./assets/cc-logo-info.png"
 
 export default {
   components: {
@@ -113,9 +143,12 @@ export default {
   },
   data() {
     return {
+      weekDaysData: Weekdays,
+      monthsData: Months,
       myLogo: Logo,
+      menu: mdiMenu,
       user: null,
-      drawer: true,
+      drawer: false,
       items: [
         { title: 'Home', icon: mdiHome, click: this.routerLinkHome },
         { title: 'Neuer Termin', icon: mdiCalendarClock, click: this.newEvent },
@@ -124,7 +157,8 @@ export default {
         { title: 'Reload', icon: mdiReload, click: this.reload },
       ],
       adminIcon: mdiAccountSupervisor,
-      mini: true
+      mini: true,
+      ccLogo: CcLogo,
     }
   },
   props: ['entrypoint'],
@@ -132,6 +166,21 @@ export default {
     getUserData () {
       if (!this.user) return {}
       return this.user
+    },
+    weekDay () {
+      let currentDate = new Date();
+      let day = currentDate.getDay()
+      return this.weekDaysData.find(item => item.value === day);
+    },
+    month () {
+      let currentDate = new Date();
+      let month = currentDate.getMonth()
+      return this.monthsData.find(item => item.value === month);
+    },
+    today () {
+      let currentDate = new Date();
+      let day = currentDate.getDate()
+      return this.weekDay.day + ' ' + day + '.' + this.month.month
     }
   },
   methods: {
@@ -147,10 +196,10 @@ export default {
       this.$refs.callNewEventDialog.addEvent();
     },
     routerLinkHome () {
-      this.$router.push('/')
+      this.$router.push('/', () => {})
     },
     routerLinkUserList () {
-      this.$router.push('/user-list')
+      this.$router.push('/user-list', () => {})
     },
     showUserDialog () {
       this.$refs.callShowUserDialog.openUserDialog();
@@ -169,6 +218,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .con {
+    height: 1000px;
+    position: relative;
+  }
+  .center-v-h {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
   .footer {
     position: absolute;
     bottom: 0;

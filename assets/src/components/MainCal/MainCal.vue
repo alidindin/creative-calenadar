@@ -1,5 +1,5 @@
 <template>
-    <v-container v-if="this.getUsers" style="margin-top: 100px">
+    <v-container v-if="this.getUsers">
         <v-row v-if="this.$store.state.events.status.pending === true" class="center-v-h">
             <clip-loader :loading="loading" :color="color" :size="size"></clip-loader>
         </v-row>
@@ -10,7 +10,8 @@
         <v-row class="text-center">
             <vue-cal
                     v-if="this.$store.state.events.status.pending === false"
-                    class="vuecal--blue-theme"
+                    style="height: 1000px"
+                    class=""
                     default-view="month"
                     click-to-navigate
                     today-button
@@ -19,6 +20,7 @@
                     :on-event-click="onEventClick"
                     :time-from="8 * 60"
                     :time-to="22 * 60"
+                    :time-step="30"
             >
             </vue-cal>
         </v-row>
@@ -219,7 +221,7 @@
             },
             color: {
                 type: String,
-                default: '#42a3b9'
+                default: '#37474F'
             },
             size: {
                 type: String,
@@ -404,4 +406,14 @@
         background-color: lightcoral;
         border: 2px solid red;
     }
+    .vuecal__menu, .vuecal__cell-events-count {background-color: #78909C}
+    .vuecal__title-bar {background-color: #ECEFF1}
+    .vuecal__cell--today, .vuecal__cell--current {background-color: rgba(144, 164, 174, 0.2)}
+    .vuecal:not(.vuecal--day-view) .vuecal__cell--selected {background-color: rgba(84, 110, 122, 0.3)}
+    .vuecal__cell--selected:before {border-color: rgba(55, 71, 79, 0.6)}
+    /* Cells and buttons get highlighted when an event is dragged over it. */
+    .vuecal__cell--highlighted:not(.vuecal__cell--has-splits),
+    .vuecal__cell-split--highlighted {background-color: rgba(195, 255, 225, 0.5);}
+    .vuecal__arrow.vuecal__arrow--highlighted,
+    .vuecal__view-btn.vuecal__view-btn--highlighted {background-color: rgba(136, 236, 191, 0.25);}
 </style>

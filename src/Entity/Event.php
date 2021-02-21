@@ -98,6 +98,12 @@ class Event
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"events:read", "events:write", "user:read", "user:write"})
+     */
+    private $phone;
+
+    /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"events:read", "events:write", "events:collection:post"})
@@ -195,6 +201,18 @@ class Event
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

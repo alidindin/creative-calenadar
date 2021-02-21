@@ -3,7 +3,7 @@
         <!-- Delete Event -->
         <delete-event ref="callShowDeleteEventDialog" :actual-event-for-delete="actualEvent" />
         <!-- Show Edit Event -->
-        <v-dialog v-model="showEventDialog" :max-width="1200">
+        <v-dialog v-model="showEventDialog" :max-width="800">
             <div v-if="showEditEvent">
                 <v-card>
                     <div class="edit-div" style="padding-left: 30px; padding-right: 30px">
